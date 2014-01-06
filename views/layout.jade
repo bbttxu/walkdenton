@@ -1,0 +1,51 @@
+doctype 5
+html
+  head
+    title Mimosa
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
+    link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/vendor/leaflet/leaflet.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
+
+    if reload
+      script(src='/socket.io/socket.io.js')
+      script(src='/javascripts/reload-client.js')
+
+    if optimize
+      script(src='/javascripts/main-built.js')
+    else
+      script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
+
+  body
+    .contain-to-grid
+      nav.top-bar(data-topbar)
+        ul.title-area
+          li.name
+            h1
+              a(href="/") Walk Denton
+
+        section.top-bar-section
+          ul.right
+            li.has-dropdown
+              a(href="#") Menu
+              ul.dropdown
+                li
+                  a(href="#") Submit Observation
+                li
+                  a(href="#") Frequently Asked Questions
+
+    block content
+
+    #footer
+      .container
+        .row
+          .small-6.columns
+            h3 Statement
+            p Walk Denton believes that self propulsion is the most basic means of transportation. As such, we strive to make Denton a place where people can move around freely.
+
+          .small-6.columns
+            h3 Links
+            ul
+              li
+                a( href="/faq") Frequently Asked Questions
+
