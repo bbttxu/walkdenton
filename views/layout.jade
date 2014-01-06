@@ -1,7 +1,7 @@
 doctype 5
 html
   head
-    title Mimosa
+    title WalkDenton
     meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
     link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/leaflet/leaflet.css' + cachebust)
@@ -29,10 +29,10 @@ html
             li.has-dropdown
               a(href="#") Menu
               ul.dropdown
+                //- li
+                //-   a(href="#") Submit Observation
                 li
-                  a(href="#") Submit Observation
-                li
-                  a(href="#") Frequently Asked Questions
+                  a(href="/faq.html") Frequently Asked Questions
 
     block content
 
@@ -47,5 +47,5 @@ html
             h3 Links
             ul
               li
-                a( href="/faq") Frequently Asked Questions
+                a( href="/faq.html") Frequently Asked Questions
 
