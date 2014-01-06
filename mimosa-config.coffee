@@ -16,7 +16,7 @@ exports.config = {
   and do not need to be installed. If a module is listed here that Mimosa is unaware of, Mimosa
   will attempt to install it.
   ###
-  # modules: ['jshint', 'csslint', 'server', 'require', 'minify-js', 'minify-css', 'live-reload', 'bower']
+  modules: ['jshint', 'csslint', 'server', 'require', 'minify-js', 'minify-css', 'live-reload', 'bower', 'mimosa-server-template-compile']
 
   # watch:
     # sourceDir: "assets"                # directory location of web assets, can be relative to
@@ -51,7 +51,7 @@ exports.config = {
                                          # javascript assets. Unix style slashes please.
     # stylesheets: "stylesheets/vendor"  # location, relative to the watch.sourceDir, of vendor
                                          # stylesheet assets. Unix style slashes please.
-	
+
 
   # compilers:
     # extensionOverrides:       # A list of extension overrides, format is:
@@ -173,7 +173,7 @@ exports.config = {
     # exclude: []       # List of regexes or strings to match files that should not be copied
                         # but that you might still want processed. String paths can be absolute
                         # or relative to the watch.sourceDir. Regexes are applied to the entire
-                        # path.	
+                        # path.
 
   # growl:
     # onStartup: false       # Controls whether or not to Growl when assets successfully
@@ -186,7 +186,7 @@ exports.config = {
       # javascript: true     # growl on successful compilation? will always send on failure
       # css: true            # growl on successful compilation? will always send on failure
       # template: true       # growl on successful compilation? will always send on failure
-      # copy: true           # growl on successful copy?	
+      # copy: true           # growl on successful copy?
 
   # server:                      # configuration for server when server option is enabled via CLI
     # defaultServer:
@@ -216,7 +216,7 @@ exports.config = {
     # exclude:[/\.min\./]         # List of string paths and regexes to match files to exclude
                                   # when running minification. Any path with ".min." in its name,
                                   # is assumed to already be minified and is ignored by default.
-                                  # Paths can be relative to the watch.compiledDir, or absolute. 
+                                  # Paths can be relative to the watch.compiledDir, or absolute.
                                   # Paths are to compiled files,  so '.js' rather than '.coffee'
 
 
@@ -225,7 +225,7 @@ exports.config = {
     # exclude:[/\.min\./]         # List of string paths and regexes to match files to exclude
                                   # when running minification. Any path with ".min." in its name,
                                   # is assumed to already be minified and is ignored by default.
-                                  # Paths can be relative to the watch.compiledDir, or absolute. 
+                                  # Paths can be relative to the watch.compiledDir, or absolute.
                                   # Paths are to compiled files,  so '.css' rather than '.styl'
 
 
@@ -254,14 +254,14 @@ exports.config = {
     # rules:                   # Settings: http://www.csslint.com/options/, these settings will
                                # override any settings set up in the csslintrc
       # floats: false          # This is an example override, this is not a default
-	
+
 
   # liveReload:                   # Configuration for live-reload
     # enabled:true                # Whether or not live-reload is enabled
     # additionalDirs:["views"]    # Additional directories outside the watch.compiledDir
                                   # that you would like to have trigger a page refresh,
                                   # like, by default, static views. Is string path,
-                                  # can be relative to project root, or absolute	
+                                  # can be relative to project root, or absolute
 
   # require:                 # configuration for requirejs options.
     # exclude:[]             # Regex or string paths. Paths can be absolute or relative to the
@@ -308,7 +308,7 @@ exports.config = {
                              #
                              # overrides can also be a function that takes mimosa-require's
                              # inferred config for each module. This allows the inferred config
-                             # to be updated and enhanced instead of just overridden.	
+                             # to be updated and enhanced instead of just overridden.
 
   # bower:                        # Configuration for bower module
     # watch: true                 # Whether or not to watch the bower.json file to automatically
