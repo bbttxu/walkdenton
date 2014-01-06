@@ -17,22 +17,27 @@ html
       script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
 
   body
+    .off-canvas-wrap
+      .inner-wrap
     .contain-to-grid
       nav.top-bar(data-topbar)
         ul.title-area
           li.name
             h1
               a(href="/") Walk Denton
+          li.toggle-topbar.menu-icon
+            a(href="#")
+              span Menu
 
         section.top-bar-section
           ul.right
-            li.has-dropdown
-              a(href="#") Menu
-              ul.dropdown
-                //- li
-                //-   a(href="#") Submit Observation
-                li
-                  a(href="/faq.html") Frequently Asked Questions
+            //- li.has-dropdown
+            //-   a(href="#") Menu
+            //-   ul.dropdown
+            //- li
+            //-   a(href="#") Submit Observation
+            li
+              a(href="/faq.html") Frequently Asked Questions
 
     block content
 

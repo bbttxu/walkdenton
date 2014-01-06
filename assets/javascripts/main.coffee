@@ -17,7 +17,7 @@ require ["jquery", "foundation"], ($) ->
 
 require ["jquery", "leaflet"], ()->
   $(document).ready ()->
-    map = L.map('map').setView([33.20, -97.12], 15)
+    map = L.map('map', {dragging: false}).setView([33.20, -97.12], 15)
     # console.log map
 
 
