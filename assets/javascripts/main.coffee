@@ -26,12 +26,13 @@ require ["jquery", "leaflet"], ()->
       maxZoom: 18
     ).addTo map
 
-    map.locate({setView: true, maxZoom: 15})
+    map.locate({setView: true, maxZoom: 17})
 
     onLocationFound = (e) ->
       radius = e.accuracy / 2
-      L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters from this point").openPopup()
-      L.circle(e.latlng, radius).addTo map
+      # L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters of this point").openPopup()
+      L.circle(e.latlng, radius * 2 ).addTo map
+      # L.circle(e.latlng, radius * 10 ).addTo map
     map.on "locationfound", onLocationFound
 
     onLocationError = (e) ->
