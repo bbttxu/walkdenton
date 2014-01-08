@@ -17,9 +17,7 @@ require ["jquery", "foundation"], ($) ->
 
 require ["jquery", "leaflet"], ()->
   $(document).ready ()->
-    map = L.map('map', {dragging: false}).setView([33.20, -97.12], 15)
-    # console.log map
-
+    map = L.map('map', {dragging: false}).setView([33.215194, -97.132788], 15)
 
     L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
@@ -27,12 +25,14 @@ require ["jquery", "leaflet"], ()->
     ).addTo map
 
     map.locate({setView: true, maxZoom: 17})
+    map.locate({watch: true, maximumAge: 6000, setView: true})
+
+    circle = L.circle([0, 0], 100 ).addTo(map);
 
     onLocationFound = (e) ->
       radius = e.accuracy / 2
-      # L.marker(e.latlng).addTo(map).bindPopup("You are within " + radius + " meters of this point").openPopup()
-      L.circle(e.latlng, radius * 2 ).addTo map
-      # L.circle(e.latlng, radius * 10 ).addTo map
+      circle.setLatLng(map.getCenter());
+
     map.on "locationfound", onLocationFound
 
     onLocationError = (e) ->
