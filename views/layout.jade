@@ -51,23 +51,25 @@ html
 
     #venues.container.primary
       .row
-        .span-12.columns
+        .small-12.columns
           h1 Venues
-          ul.venues(data-bind="foreach: foods")
+          //- ul.venues(data-bind="foreach: foods")
 
 
     #food.container.primary
       .row
-        .span-8.columns
-          h1 Food
-          ul.foods(data-bind="foreach: foods")
+        .small-7.columns
+          h1
+            | Food
+            small(data-bind="text: filterTags().join(' ')")
+          ul.foods(data-bind="foreach: filtered")
             li(data-bind="text: name")
 
-        .span-4.columns
+        .small-5.columns
           h1 Tags
-          ul.tags(data-bind="foreach: tags")
-            li(data-bind="text: name")
-
+          ul.inline-list.tags(data-bind="foreach: tags")
+            li
+              a.toggle.button.small(data-bind="text: name")
     #footer
       .container
         .row

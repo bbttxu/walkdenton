@@ -14,8 +14,7 @@ requirejs.config
       deps: [ 'jquery' ]
 
     underscore:
-      exports: ()->
-        _.noConflict()
+      exports: "_"
 
 require ["jquery", "foundation"], ($) ->
   $(document).ready ()->
@@ -48,6 +47,11 @@ require ["jquery", "sammy"], ($, Sammy)->
 require ["jquery", "knockout", "underscore"], ($, ko, _)->
 
 
+  tagViewModel = (tag)->
+    self = this
+    self.name = ko.observable tag
+    self
+
   foodViewModel = (food)->
     self = this
     self.name = ko.observable food.name
@@ -61,15 +65,35 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
 
       all_this_food = self.foods()
 
-      tags = []
+      tags = {}
       for food in all_this_food
-        console.log food
 
         for tag in food.tags()
-          tags.push tag
+          tags[tag] = tags[tag] + 1 || 1
 
-      console.log tags
-      tags
+      _.map tags, (value, key)->
+        name: key
+        number: value
+
+    self.filterTags = ko.observableArray []
+    self.filtered = ko.computed ()->
+      foods = self.foods()
+      tags = self.filterTags()
+      # console.log tags.length
+      return foods if tags.length is 0
+
+      filtered = []
+
+      for food in foods
+        for tag in tags
+          for foodtag in food.tags()
+            if foodtag == tag
+              filtered.push food
+
+
+      # filtered = _.sortBy filtered, (a)->
+
+      _.uniq filtered
     self
 
   foodsView = new foodsViewModel []
@@ -84,7 +108,16 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
 
     foodsView.foods foods
 
+  $(document).ready ()->
+    $("ul.tags").on 'click', 'a.toggle', (event)->
+      event.preventDefault()
+      $(this).toggleClass 'toggled'
 
+      tags = []
+      $("ul.tags a.toggled").each (i, m)->
+        tags.push $(m).text()
+
+      foodsView.filterTags tags
 
 require ["leaflet"], ()->
 
