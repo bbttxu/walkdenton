@@ -53,12 +53,20 @@ html
       .row
         .span-12.columns
           h1 Venues
+          ul.venues(data-bind="foreach: foods")
 
 
     #food.container.primary
       .row
-        .span-12.columns
+        .span-8.columns
           h1 Food
+          ul.foods(data-bind="foreach: foods")
+            li(data-bind="text: name")
+
+        .span-4.columns
+          h1 Tags
+          ul.tags(data-bind="foreach: tags")
+            li(data-bind="text: name")
 
     #footer
       .container

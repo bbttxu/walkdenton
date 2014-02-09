@@ -6,11 +6,16 @@ requirejs.config
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
     sammy: "vendor/sammy/sammy"
+    knockout: "vendor/knockout/knockout"
+    underscore: "vendor/underscore/underscore"
 
   shim:
     'foundation':
       deps: [ 'jquery' ]
 
+    underscore:
+      exports: ()->
+        _.noConflict()
 
 require ["jquery", "foundation"], ($) ->
   $(document).ready ()->
@@ -39,6 +44,46 @@ require ["jquery", "sammy"], ($, Sammy)->
     self
 
   app.run "#/"
+
+require ["jquery", "knockout", "underscore"], ($, ko, _)->
+
+
+  foodViewModel = (food)->
+    self = this
+    self.name = ko.observable food.name
+    self.tags = ko.observableArray food.tags_array
+    self
+
+  foodsViewModel = (foods)->
+    self = this
+    self.foods = ko.observable foods
+    self.tags = ko.computed ()->
+
+      all_this_food = self.foods()
+
+      tags = []
+      for food in all_this_food
+        console.log food
+
+        for tag in food.tags()
+          tags.push tag
+
+      console.log tags
+      tags
+    self
+
+  foodsView = new foodsViewModel []
+
+  ko.applyBindings foodsView, $('#food')[0]
+
+
+
+  $.getJSON "http://192.241.185.162/foods.json?callback=?", (data, status)->
+    foods = for food in data.foods
+      new foodViewModel(food)
+
+    foodsView.foods foods
+
 
 
 require ["leaflet"], ()->
