@@ -5,6 +5,7 @@ requirejs.config
     jquery: "vendor/jquery/jquery"
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
+    sammy: "vendor/sammy/sammy"
 
   shim:
     'foundation':
@@ -14,6 +15,31 @@ requirejs.config
 require ["jquery", "foundation"], ($) ->
   $(document).ready ()->
     $(document).foundation()
+
+
+
+
+require ["jquery", "sammy"], ($, Sammy)->
+
+  app = Sammy 'body', ()->
+    self = this
+
+    self.get "#/venues", ()->
+      $('.primary').not("#venues").slideUp()
+      $('#venues').show()
+
+    self.get "#/food", ()->
+      $('.primary').not("#food").slideUp()
+      $('#food').show()
+
+    self.get "#/", ()->
+      $('.primary').not("#map").slideUp()
+      $('#map').show()
+
+    self
+
+  app.run "#/"
+
 
 require ["leaflet"], ()->
 
