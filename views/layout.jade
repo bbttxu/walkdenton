@@ -58,18 +58,18 @@ html
 
     #food.container.primary
       .row
-        .small-7.columns
+        .small-6.columns
           h1
             | Food
             small(data-bind="text: filterTags().join(' ')")
           ul.foods(data-bind="foreach: filtered")
             li(data-bind="text: name")
 
-        .small-5.columns
-          h1 Tags
+        .small-6.columns
+          h3 Tags
           ul.inline-list.tags(data-bind="foreach: tags")
             li
-              a.toggle.button.small(data-bind="text: name")
+              a.toggle.button.tiny(data-bind="text: name")
     #footer
       .container
         .row

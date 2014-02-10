@@ -79,7 +79,7 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
     self.filtered = ko.computed ()->
       foods = self.foods()
       tags = self.filterTags()
-      # console.log tags.length
+
       return foods if tags.length is 0
 
       filtered = []
@@ -89,9 +89,6 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
           for foodtag in food.tags()
             if foodtag == tag
               filtered.push food
-
-
-      # filtered = _.sortBy filtered, (a)->
 
       _.uniq filtered
     self
