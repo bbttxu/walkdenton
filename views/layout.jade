@@ -6,7 +6,6 @@ html
     link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/leaflet/leaflet.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
-    link(rel='stylesheet', href='/stylesheets/faq.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/map.css' + cachebust)
 
     if reload
@@ -33,54 +32,29 @@ html
 
         section.top-bar-section
           ul.right
-            //- li.has-dropdown
-            //-   a(href="#") Menu
-            //-   ul.dropdown
-            //- li
-            //-   a(href="#") Submit Observation
-            //- li
-            //-   a(href="/faq.html") Frequently Asked Questions
             li
               a( href="#/food") Food
-            //- li
-            //-   a( href="#/venues") Venues
             li
               a( href="http://github.com/bbttxu/walkdenton") bbttxu/walkdenton
 
     block content
 
-    #venues.container.primary
-      .row
-        .small-12.columns
-          h1 Venues
-          //- ul.venues(data-bind="foreach: foods")
-
-
     #food.container.primary
       .row
-        .small-6.columns
-          h1
-            | Food
-            small(data-bind="text: filterTags().join('|')")
-          ul.foods(data-bind="foreach: filtered")
-            li(data-bind="text: name")
-
-        .small-6.columns
+        .small-12.medium-6.medium-push-6.columns
           h3 Tags
           ul.inline-list.tags(data-bind="foreach: tags")
             li
               a.toggle.button.tiny(data-bind="text: name")
+
+        .small-12.medium-6.medium-pull-6.columns
+          h1
+            | Food
+            small(data-bind="text: filterTags().join('|')")
+          ul.foods.small-block-grid-2.large-block-grid-3(data-bind="foreach: filtered")
+            li(data-bind="text: name")
+
     #footer
       .container
         .row
-          .small-12.medium-6.columns
-            //- h4 Statement
-            //- p Walk Denton believes that self propulsion is the most basic means of transportation. As such, we strive to make Denton a place where people can move around freely.
-
-          .small-12.medium-6.columns
-            //- h4 Links
-            //- ul
-            //-   li
-            //-     a( href="/faq.html") Frequently Asked Questions
-            //-   li
-            //-     a( href="http://github.com/bbttxu/walkdenton") bbttxu/walkdenton
+          .small-12.columns
