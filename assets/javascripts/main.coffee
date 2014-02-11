@@ -59,10 +59,17 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
     self.name = ko.observable food.name
     self.tags = ko.observableArray food.tags_array
     self.coordinates = ko.observableArray food.coordinates
+    self.marker = ko.computed ()->
+      coordinates = self.coordinates()
+      latlng = L.latLng( coordinates[1], coordinates[0])
+      L.marker(latlng)
+
     self
 
   foodsViewModel = (foods)->
     self = this
+
+
     self.foods = ko.observable foods
     self.tags = ko.computed ()->
 
@@ -95,6 +102,11 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
 
       _.uniq filtered
 
+    self.markers = ko.computed ()->
+      foods = self.filtered()
+      _.map foods, (food)->
+        food.marker()
+
     # self.bounds = ko.computed ()->
     #   filtered = self.filtered()
 
@@ -120,7 +132,12 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
     foods = for food in data.foods
       new foodViewModel(food)
 
+
     foodsView.foods foods
+
+    for food in foodsView.markers
+      marker.addTo(map)
+
 
   $(document).ready ()->
     $("ul.tags").on 'click', 'a.toggle', (event)->
@@ -131,8 +148,36 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
       $("ul.tags a.toggled").each (i, m)->
         tags.push $(m).text()
 
+
+      # grab existing markers, for our purposes, previous
+      previousMarkers = foodsView.markers()
+
+      # update tags
       foodsView.filterTags tags
 
+      # grab new aka current markers if tags are enabled
+      currentMarkers = []
+      currentMarkers = foodsView.markers() if tags.length isnt 0
+
+      # remove markers no longer on map
+      deleteTheseMarkers = _.difference previousMarkers, currentMarkers
+      for marker in deleteTheseMarkers
+        map.removeLayer marker
+
+      # add new markers, not already on map
+      addTheseMarkers = _.difference currentMarkers, previousMarkers
+      for marker in addTheseMarkers
+        marker.addTo(map)
+
+      latLngs = _.map currentMarkers, (marker)->
+        marker.getLatLng()
+
+      latLngs.push circle.getLatLng()
+
+
+      bounds = L.latLngBounds latLngs
+
+      map.fitBounds bounds
 # require ["leaflet"], ()->
 
 
