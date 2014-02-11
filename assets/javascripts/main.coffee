@@ -206,8 +206,17 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
     circle.setLatLng(map.getCenter());
     circle.setRadius radius
 
+    latLngs = _.map currentMarkers, (marker)->
+      marker.getLatLng()
+
+    latLngs.push circle.getLatLng()
+
+    bounds = L.latLngBounds latLngs
+
+    map.fitBounds bounds
+
   map.on "locationfound", onLocationFound
 
   onLocationError = (e) ->
-    alert e.message
+    console.log e.message
   map.on "locationerror", onLocationError
