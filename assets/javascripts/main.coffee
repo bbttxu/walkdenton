@@ -45,9 +45,16 @@ require ["jquery", "sammy"], ($, Sammy)->
   app.run "#/food"
 
 require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
+  options =
+    dragging: false
+    touchZoom: false
+    scrollWheelZoom: false
+    doubleClickZoom: false
+    boxZoom: false
+    zoomControl: false
 
 
-  map = L.map('map', {dragging: false}).setView([33.215194, -97.132788], 15)
+  map = L.map('map', options).setView([33.215194, -97.132788], 14)
 
   tagViewModel = (tag)->
     self = this
