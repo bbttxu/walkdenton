@@ -166,6 +166,13 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
 
       # add new markers, not already on map
       addTheseMarkers = _.difference currentMarkers, previousMarkers
+      if addTheseMarkers.length is 0
+        addTheseMarkers = currentMarkers
+        circle.setRadius 100
+
+      if addTheseMarkers.length isnt 0
+        circle.setRadius 1000
+
       for marker in addTheseMarkers
         marker.addTo(map)
 
@@ -195,6 +202,7 @@ require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
 
   onLocationFound = (e) ->
     radius = e.accuracy / 2
+    radius = 100
     circle.setLatLng(map.getCenter());
     circle.setRadius radius
 
