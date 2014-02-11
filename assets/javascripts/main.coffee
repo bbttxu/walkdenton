@@ -28,9 +28,9 @@ require ["jquery", "sammy"], ($, Sammy)->
   app = Sammy 'body', ()->
     self = this
 
-    self.get "#/venues", ()->
-      $('.primary').not("#venues").slideUp()
-      $('#venues').show()
+    # self.get "#/venues", ()->
+    #   $('.primary').not("#venues").slideUp()
+    #   $('#venues').show()
 
     self.get "#/food", ()->
       $('.primary').not("#food").slideUp()
@@ -42,10 +42,12 @@ require ["jquery", "sammy"], ($, Sammy)->
 
     self
 
-  app.run "#/"
+  app.run "#/food"
 
-require ["jquery", "knockout", "underscore"], ($, ko, _)->
+require ["jquery", "knockout", "underscore", "leaflet"], ($, ko, _, L)->
 
+
+  map = L.map('map', {dragging: false}).setView([33.215194, -97.132788], 15)
 
   tagViewModel = (tag)->
     self = this
@@ -56,6 +58,7 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
     self = this
     self.name = ko.observable food.name
     self.tags = ko.observableArray food.tags_array
+    self.coordinates = ko.observableArray food.coordinates
     self
 
   foodsViewModel = (foods)->
@@ -91,6 +94,20 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
               filtered.push food
 
       _.uniq filtered
+
+    # self.bounds = ko.computed ()->
+    #   filtered = self.filtered()
+
+
+    #   # for food in filtered
+    #   #   console.log food.coordinates()
+
+
+    #   filtered = food for food in filtered
+    #   console.log filtered
+    #   filtered
+
+
     self
 
   foodsView = new foodsViewModel []
@@ -116,9 +133,8 @@ require ["jquery", "knockout", "underscore"], ($, ko, _)->
 
       foodsView.filterTags tags
 
-require ["leaflet"], ()->
+# require ["leaflet"], ()->
 
-  map = L.map('map', {dragging: false}).setView([33.215194, -97.132788], 15)
 
   L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"

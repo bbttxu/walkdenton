@@ -42,8 +42,8 @@ html
             //-   a(href="/faq.html") Frequently Asked Questions
             li
               a( href="#/food") Food
-            li
-              a( href="#/venues") Venues
+            //- li
+            //-   a( href="#/venues") Venues
             li
               a( href="http://github.com/bbttxu/walkdenton") bbttxu/walkdenton
 
@@ -61,7 +61,7 @@ html
         .small-6.columns
           h1
             | Food
-            small(data-bind="text: filterTags().join(' ')")
+            small(data-bind="text: filterTags().join('|')")
           ul.foods(data-bind="foreach: filtered")
             li(data-bind="text: name")
 
