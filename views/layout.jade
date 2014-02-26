@@ -35,9 +35,23 @@ html
             li
               a( href="#/food") Food
             li
+              a( href="#/shows") Shows
+            li
               a( href="http://github.com/bbttxu/walkdenton") bbttxu/walkdenton
 
     block content
+
+    #shows.container.primary
+      .row
+        .small-12.medium-6.medium-push-6.columns
+          h3 Calendar
+          ul.small-block-grid-7(data-bind="foreach: calendarDays")
+            li.calendar(data-bind="css: countClass")
+              span.weekday(data-bind="text: weekday, visible: showWeekday")
+              span.month(data-bind="text: month, visible: showMonth")
+              span.day(data-bind="text: day")
+              //- span.year(data-bind="text: year")
+
 
     #food.container.primary
       .row

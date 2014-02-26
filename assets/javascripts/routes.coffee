@@ -7,6 +7,10 @@ define [ "sammy" ], (Sammy)->
       $('.primary').not("#food").slideUp()
       $('#food').show()
 
+    self.get "#/shows", ()->
+      $('.primary').not("#shows").slideUp()
+      $('#shows').show()
+
     self.get "#/", ()->
       $('.primary').not("#map").slideUp()
       $('#map').show()
