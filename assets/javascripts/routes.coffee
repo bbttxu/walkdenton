@@ -3,6 +3,10 @@ define [ "sammy" ], (Sammy)->
   routes = Sammy 'body', ()->
     self = this
 
+    self.get "#/vision", ()->
+      $('.primary').not("#vision").slideUp()
+      $('#vision').show()
+
     self.get "#/food", ()->
       $('.primary').not("#food").slideUp()
       $('#food').show()
