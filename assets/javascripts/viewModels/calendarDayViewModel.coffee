@@ -30,9 +30,7 @@ define ["knockout", "moment"], (ko, moment)->
 			date = moment self.date()
 			moment().diff(date, 'days') <= offset
 
-
-		# self.year = ko.computed ()->
-		# 	date = self.date()
-		# 	moment(date).format('YY')
+		self.link = ko.computed ()->
+			'#/shows/' + self.date()
 
 		self

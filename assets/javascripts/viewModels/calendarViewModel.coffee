@@ -6,9 +6,10 @@ define ["knockout", "underscore", "viewModels/calendarDayViewModel"], (ko, _, ca
 		self.calendar = ko.observable {}
 		self.calendarDays = ko.computed ()->
 			calendar = self.calendar()
-			_.map calendar, (count, date, list)->
+			models = _.map calendar, (count, date, list)->
 				new calendarDayViewModel date, count
-
+			_.sortBy models, (object)->
+				object.date()
 
 			# _.sort calendarDays, (object)->
 			# 	object.date

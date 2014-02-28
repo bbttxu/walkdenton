@@ -11,6 +11,7 @@ define [ "sammy" ], (Sammy)->
       $('.primary').not("#shows").slideUp()
       $('#shows').show()
 
+
     self.get "#/", ()->
       $('.primary').not("#map").slideUp()
       $('#map').show()
