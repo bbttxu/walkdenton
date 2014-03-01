@@ -21,6 +21,9 @@ end
 
 desc "Deploy website via rsync"
 task :deploy do
+  system("rsync -avz assets/stylesheets/vendor/ public/stylesheets/vendor/")
+  system("rsync -avz assets/javascripts/vendor/ public/javascripts/vendor/")
+  system("rsync -avz assets/images/ public/images/")
   SSH_HOSTS.each do |ssh_host|
     puts "## Deploying website via rsync to #{ssh_host}"
     status = system("rsync -avze 'ssh' --delete public/ #{SSH_USER}@#{ssh_host}:#{SSH_DIR}")
