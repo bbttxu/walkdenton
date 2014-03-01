@@ -3,16 +3,17 @@ define [ "sammy" ], (Sammy)->
   routes = Sammy 'body', ()->
     self = this
 
+    showSection = (selector)->
+      $('.primary').not(selector).slideUp()
+      $(selector).slideDown()
+
     self.get "#/vision", ()->
-      $('.primary').not("#vision").slideUp()
-      $('#vision').show()
+      showSection "#vision" 
 
     self.get "#/food", ()->
-      $('.primary').not("#food").slideUp()
-      $('#food').show()
+      showSection "#food"
 
     self.get "#/", ()->
-      $('.primary').not("#map").slideUp()
-      $('#map').show()
+      showSection "#map"
 
     self
