@@ -20,7 +20,7 @@ require ["jquery", "foundation"], ($) ->
     $(document).foundation()
 
 require ["routes"], (app)->
-  app.run "#/food"
+  app.run "#/vision"
 
 require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
   options =
@@ -43,6 +43,8 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
   options =
     color: '#00f'
   circle = L.circle([0, 0], 100, options ).addTo(map);
+
+  currentMarkers = []
 
   onLocationFound = (e) ->
     radius = e.accuracy / 2
