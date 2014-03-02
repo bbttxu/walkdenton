@@ -16,7 +16,7 @@ exports.config = {
   and do not need to be installed. If a module is listed here that Mimosa is unaware of, Mimosa
   will attempt to install it.
   ###
-  modules: ['jshint', 'csslint', 'server', 'bower', 'jade', 'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile' ] # 
+  modules: ['jshint', 'csslint', 'server', 'bower', 'jade', 'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile', 'copy' ] # 
 
   # watch:
     # sourceDir: "assets"                # directory location of web assets, can be relative to
