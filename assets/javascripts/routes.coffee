@@ -1,7 +1,9 @@
 # routes.coffee
-define [ "sammy" ], (Sammy)->
+define [ 'jquery', "sammy"], ($, Sammy)->
   routes = Sammy 'body', ()->
     self = this
+
+    # use(Sammy.GoogleAnalytics)
 
     showSection = (selector)->
       $('.primary').not(selector).slideUp()

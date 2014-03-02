@@ -5,13 +5,18 @@ requirejs.config
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
     sammy: "vendor/sammy/sammy"
+    # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
     underscore: "vendor/underscore/underscore"
 
   shim:
     'foundation':
       deps: [ 'jquery' ]
-
+    'sammy':
+      deps: [ 'jquery' ]
+      exports: "Sammy"
+    # 'sammy-google-analytics':
+    #   deps: [ 'sammy' ]
     underscore:
       exports: "_"
 
