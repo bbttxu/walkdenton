@@ -151,7 +151,7 @@ require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarVi
   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
   #   console.log asdf
 
-require [ "jquery", "viewModels/showDate", "viewModels/show", "knockout" ], ($, showDate, showModel, ko, moment)->
+require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "knockout" ], ($, showDate, showModel, gigModel, ko, moment)->
 
   showDateView = new showDate "No date selected"
   ko.applyBindings showDateView, $('#showDate')[0]
@@ -163,6 +163,18 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "knockout" ], ($, 
     showDateView.date(date)
     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
 
+      artistByID = (artistID)->
+        # console.log data.artists
+        for artist in data.artists
+          # console.log artist.id, artistID
+          return artist.name if artist.id is artistID
+        "no artist found"
+
+      gigByID = (id)->
+        for gig in data.gigs
+          return gig if gig.id is id
+        "no gig found"
+
       venueByID = (id)->
         for venue in data.venues
           return venue.name if venue.id is id
@@ -170,7 +182,14 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "knockout" ], ($, 
 
       shows = for thisShow in data.shows
 
+
         thisShow.venue = venueByID(thisShow.venues)
+
+        thisShow.gigs = for gig in thisShow.gigs
+          gig = gigByID gig
+          gig.artist = artistByID(gig.artists)
+          new gigModel gig
+
         view = new showModel(thisShow)
 
       showDateView.shows shows
