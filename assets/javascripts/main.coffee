@@ -156,17 +156,11 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
   showDateView = new showDate "No date selected"
   ko.applyBindings showDateView, $('#showDate')[0]
 
-
-
   grabShowsForDate = (event, date)->
-
     showDateView.date(date)
     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
-
       artistByID = (artistID)->
-        # console.log data.artists
         for artist in data.artists
-          # console.log artist.id, artistID
           return artist.name if artist.id is artistID
         "no artist found"
 
@@ -181,22 +175,15 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
         "no venue found"
 
       shows = for thisShow in data.shows
-
-
         thisShow.venue = venueByID(thisShow.venues)
-
         thisShow.gigs = for gig in thisShow.gigs
           gig = gigByID gig
           gig.artist = artistByID(gig.artists)
           new gigModel gig
 
-        view = new showModel(thisShow)
+        new showModel thisShow 
 
       showDateView.shows shows
-
-
-
-    # console.log 'dateChange', date
 
   $(document).on 'dateChange', 'body', grabShowsForDate
 
