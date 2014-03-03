@@ -61,11 +61,10 @@ html
           div.shows
             ul.small-block-grid-1(data-bind="foreach: shows")
               li
-                span.time(data-bind="text: id")
-                span.time(data-bind="text: starts_at")
-                span.source(data-bind="text: source")
+                a(data-bind="attr: { href: source }")
+                  span.time(data-bind="text: startsAtTime")
+                  span.venue(data-bind="text: venue")
                 span.price(data-bind="text: price")
-                span.venue(data-bind="text: venue")
 
         .small-12.medium-6.columns#showsCalendar
           h3 Calendar

@@ -7,7 +7,11 @@ define ["knockout", "underscore", "moment"], (ko, _, moment)->
 
 		self.price = ko.observable attributes.price
 		self.source = ko.observable attributes.source
-		self.starts_at = ko.observable attributes.starts_at
+		self.startsAt = ko.observable attributes.starts_at
+		self.startsAtTime = ko.computed ()->
+			time = moment self.startsAt()
+			time.format "hh:mm A"
+
 		self.venue = ko.observable attributes.venue
 		self.id = ko.observable attributes.id
 		self.gig = ko.observableArray []
