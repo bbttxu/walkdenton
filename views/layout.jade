@@ -56,7 +56,18 @@ html
 
     #shows.container.primary
       .row
-        .small-12.medium-6.medium-push-6.columns
+        .small-12.medium-6.columns#showDate
+          h3(data-bind="text: formatedDate") Today
+          div.shows
+            ul.small-block-grid-1(data-bind="foreach: shows")
+              li
+                span.time(data-bind="text: id")
+                span.time(data-bind="text: starts_at")
+                span.source(data-bind="text: source")
+                span.price(data-bind="text: price")
+                span.venue(data-bind="text: venue")
+
+        .small-12.medium-6.columns#showsCalendar
           h3 Calendar
           ul.small-block-grid-7(data-bind="foreach: calendarDays")
             li.calendar(data-bind="css: countClass")
@@ -86,6 +97,7 @@ html
           ul.small-block-grid-1.medium-block-grid-3.panel.callout.radius
             li visionaries
             li advocates
+            li data geeksd
             li artists
             li engineers
             li programmers

@@ -6,8 +6,8 @@ define [ 'jquery', "sammy"], ($, Sammy)->
     # use(Sammy.GoogleAnalytics)
 
     showSection = (selector)->
-      $('.primary').not(selector).slideUp()
-      $(selector).slideDown()
+      $('.primary').not(selector).slideUp('fast')
+      $(selector).slideDown('fast')
 
     self.get "#/vision", ()->
       showSection "#vision" 
@@ -15,10 +15,19 @@ define [ 'jquery', "sammy"], ($, Sammy)->
     self.get "#/food", ()->
       showSection "#food"
 
-    self.get "#/shows", ()->
-      $('.primary').not("#shows").slideUp()
-      $('#shows').show()
+    self.get "#/shows/:date", ()->
+      date = this.params.date
 
+      $("body").trigger 'dateChange', date
+
+      showSection "#shows"
+
+    self.get "#/shows", ()->
+      showSection "#shows"
+
+
+
+      # showSection "#shows"
 
     self.get "#/", ()->
       showSection "#map"

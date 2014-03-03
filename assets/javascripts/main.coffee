@@ -138,7 +138,7 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
 require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
   calendarView = new calendarViewModel()
 
-  ko.applyBindings calendarView, $("#shows")[0]
+  ko.applyBindings calendarView, $("#showsCalendar")[0]
 
   grabCalendar = ()->
     $.getJSON "http://denton1.krakatoa.io/shows/calendar.json?callback=?", (data, status)->
@@ -150,5 +150,47 @@ require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarVi
 
   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
   #   console.log asdf
+
+require [ "jquery", "viewModels/showDate", "viewModels/show", "knockout" ], ($, showDate, showModel, ko, moment)->
+
+  showDateView = new showDate "No date selected"
+  ko.applyBindings showDateView, $('#showDate')[0]
+
+
+
+  grabShowsForDate = (event, date)->
+
+    showDateView.date(date)
+    $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
+
+      venueByID = (id)->
+        for venue in data.venues
+          return venue.name if venue.id is id
+        "no venue found"
+
+      shows = for thisShow in data.shows
+
+        thisShow.venue = venueByID(thisShow.venues)
+        view = new showModel(thisShow)
+
+      showDateView.shows shows
+
+
+
+    # console.log 'dateChange', date
+
+  $(document).on 'dateChange', 'body', grabShowsForDate
+
+
+
+
+
+
+
+
+
+
+
+
 
 
