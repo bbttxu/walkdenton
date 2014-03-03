@@ -16,7 +16,7 @@ exports.config = {
   and do not need to be installed. If a module is listed here that Mimosa is unaware of, Mimosa
   will attempt to install it.
   ###
-  modules: ['jshint', 'csslint', 'server', 'require', 'minify-js', 'minify-css', 'live-reload', 'bower', 'mimosa-server-template-compile','jade', 'coffeescript', 'stylus']
+  modules: ['jshint', 'csslint', 'server', 'bower', 'jade', 'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile', 'copy' ] # 
 
   # watch:
     # sourceDir: "assets"                # directory location of web assets, can be relative to
@@ -310,17 +310,17 @@ exports.config = {
                              # inferred config for each module. This allows the inferred config
                              # to be updated and enhanced instead of just overridden.
 
-  # bower:                        # Configuration for bower module
-    # watch: true                 # Whether or not to watch the bower.json file to automatically
+  bower:                        # Configuration for bower module
+    watch: true                 # Whether or not to watch the bower.json file to automatically
                                   # kick off a bower install when it changes.
     # bowerDir:
       # path: ".mimosa/bower/bower_components"  # The location mimosa-bower places temporary
                                                 # bower assets.
       # clean: true               # whether or not to remove temporary bower assets after install
 
-    # copy:                       # configuration for the copying of assets from bower temp
+    copy:                       # configuration for the copying of assets from bower temp
                                   # directories into the project
-      # enabled: true             # whether or not to copy the assets out of the bowerDir.path
+      enabled: true             # whether or not to copy the assets out of the bowerDir.path
                                   # into the project vendor location
       # trackChanges: true        # When set to true, mimosa-bower will keep track of your
                                   # bower.json and mimosa-config "bower" configuration and kick
@@ -337,7 +337,7 @@ exports.config = {
       # exclude:[]                # An array of string paths or regexes. Files to exclude from
                                   # copying. Paths should be relative to the bowerdir.path or
                                   # absolute.
-      # unknownMainFullCopy: false # When set to true, any bower package that does not have main
+      unknownMainFullCopy: true # When set to true, any bower package that does not have main
                                   # files configured in its bower.json will have its entire
                                   # folder contents copied in.
       # mainOverrides: {}         # Occasionally bower packages do not clearly indicate what file

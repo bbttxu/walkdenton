@@ -1,11 +1,19 @@
 # routes.coffee
-define [ "sammy" ], (Sammy)->
+define [ 'jquery', "sammy"], ($, Sammy)->
   routes = Sammy 'body', ()->
     self = this
 
+    # use(Sammy.GoogleAnalytics)
+
+    showSection = (selector)->
+      $('.primary').not(selector).slideUp()
+      $(selector).slideDown()
+
+    self.get "#/vision", ()->
+      showSection "#vision" 
+
     self.get "#/food", ()->
-      $('.primary').not("#food").slideUp()
-      $('#food').show()
+      showSection "#food"
 
     self.get "#/shows", ()->
       $('.primary').not("#shows").slideUp()
@@ -13,7 +21,6 @@ define [ "sammy" ], (Sammy)->
 
 
     self.get "#/", ()->
-      $('.primary').not("#map").slideUp()
-      $('#map').show()
+      showSection "#map"
 
     self

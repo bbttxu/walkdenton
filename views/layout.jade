@@ -11,6 +11,16 @@ html
     if reload
       script(src='/socket.io/socket.io.js')
       script(src='/javascripts/reload-client.js')
+    else
+      script.
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-48498147-1', 'walkdenton.com');
+        ga('send', 'pageview');
+
 
     if optimize
       script(src='/javascripts/main-built.js')
@@ -33,6 +43,8 @@ html
         section.top-bar-section
           ul.right
             li
+              a( href="#/vision") Vision
+            li
               a( href="#/food") Food
             li
               a( href="#/shows") Shows
@@ -53,6 +65,33 @@ html
                 span.month(data-bind="text: month, visible: showMonth")
                 span.day(data-bind="text: day")
   
+    #vision.container.primary
+      .row
+        .small-4.columns
+          img(src="/images/crosswalk.png")
+        .small-8.medium-6.columns.end
+          h1 WalkDenton's Vision
+          p WalkDenton believes that Denton, TX is a unique place and that the community is responsible is key in making this a place where people come to live because of it's small town feel, creative community and liveability. 
+          p One aspect of that reputation is the accesibility it provides it's citizens to the heart of the city.
+
+          h2 Community input is needed...
+          p WalkDenton is in it's infancy. If you are interested in contributing, we  welcome your experience and enthusiasm. We are looking for:
+  
+      .row
+        .small-4.columns#cta
+          blockquote
+            h3 How can you help me Denton a better place?
+
+        .small-8.medium-6.columns.end
+          ul.small-block-grid-1.medium-block-grid-3.panel.callout.radius
+            li visionaries
+            li advocates
+            li artists
+            li engineers
+            li programmers
+            li writers
+            li your talent
+
 
     #food.container.primary
       .row
@@ -73,3 +112,4 @@ html
       .container
         .row
           .small-12.columns
+

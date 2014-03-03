@@ -5,6 +5,7 @@ requirejs.config
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
     sammy: "vendor/sammy/sammy"
+    # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
     underscore: "vendor/underscore/underscore"
     moment: "vendor/moment/moment"
@@ -12,7 +13,11 @@ requirejs.config
   shim:
     'foundation':
       deps: [ 'jquery' ]
-
+    'sammy':
+      deps: [ 'jquery' ]
+      exports: "Sammy"
+    # 'sammy-google-analytics':
+    #   deps: [ 'sammy' ]
     underscore:
       exports: "_"
 
@@ -21,7 +26,7 @@ require ["jquery", "foundation"], ($) ->
     $(document).foundation()
 
 require ["routes"], (app)->
-  app.run "#/food"
+  app.run "#/vision"
 
 require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
   options =
@@ -44,6 +49,8 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
   options =
     color: '#00f'
   circle = L.circle([0, 0], 100, options ).addTo(map);
+
+  currentMarkers = []
 
   onLocationFound = (e) ->
     radius = e.accuracy / 2
