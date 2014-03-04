@@ -38,16 +38,14 @@ require ["jquery", "spin"], ($, Spinner) ->
     hwaccel: false, # Whether to use hardware acceleration
     className: 'spinner', # The CSS class to assign to the spinner
     zIndex: 2e9, # The z-index (defaults to 2000000000)
-    top: '10xp', # Top position relative to parent in px
+    top: '10px', # Top position relative to parent in px
     left: '10px' # Left position relative to parent in px
+    
   target = document.getElementById "target"  
   spinner = new Spinner(opts).spin(target)
 
-  $(document).ajaxStart ()->
-    spinner.spin()
-
-  $(document).ajaxStop ()->
-    spinner.stop()
+  $(document).ajaxStart ()-> spinner.spin()
+  $(document).ajaxStop ()-> spinner.stop()    
 
 require ["jquery", "foundation"], ($) ->
   $(document).ready ()->
