@@ -9,6 +9,7 @@ requirejs.config
     knockout: "vendor/knockout/knockout"
     underscore: "vendor/underscore/underscore"
     moment: "vendor/moment/moment"
+    fastclick: "vendor/fastclick/fastclick"
     spin: "vendor/spin/spin"
 
   shim:
@@ -22,32 +23,14 @@ requirejs.config
     underscore:
       exports: "_"
 
-require ["jquery", "spin"], ($, Spinner) ->
-  opts =
-    lines: 9, # The number of lines to draw
-    length: 4, # The length of each line
-    width: 2, # The line thickness
-    radius: 4, # The radius of the inner circle
-    corners: 1, # Corner roundness (0..1)
-    rotate: 0, # The rotation offset
-    direction: 1, # 1: clockwise, -1: counterclockwise
-    color: '#fff', # #rgb or #rrggbb or array of colors
-    speed: 1.1, # Rounds per second
-    trail: 60, # Afterglow percentage
-    shadow: false, # Whether to render a shadow
-    hwaccel: false, # Whether to use hardware acceleration
-    className: 'spinner', # The CSS class to assign to the spinner
-    zIndex: 2e9, # The z-index (defaults to 2000000000)
-    top: '10px', # Top position relative to parent in px
-    left: '10px' # Left position relative to parent in px
-    
+require ["jquery", "app/spinner"], ($, spinner)->
   target = document.getElementById "target"  
-  spinner = new Spinner(opts).spin(target)
+  spinner.spin(target)
 
   $(document).ajaxStart ()-> spinner.spin()
   $(document).ajaxStop ()-> spinner.stop()    
 
-require ["jquery", "foundation"], ($) ->
+require ["jquery", "fastclick", "foundation"], ($) ->
   $(document).ready ()->
     $(document).foundation()
 
@@ -184,6 +167,8 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
   grabShowsForDate = (event, date)->
     showDateView.date(date)
+    showDateView.shows []
+
     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
       artistByID = (artistID)->
         for artist in data.artists

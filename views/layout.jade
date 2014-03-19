@@ -55,7 +55,7 @@ html
 
     #shows.container.primary
       .row
-        .small-12.medium-6.columns#showDate
+        .small-8.columns#showDate
           h3(data-bind="text: formatedDate") Today
           div.shows
             ul.small-block-grid-1(data-bind="foreach: shows")
@@ -69,9 +69,9 @@ html
                     //- span(data-bind="text: position")  
                     span(data-bind="text: artist")  
   
-        .small-12.medium-6.columns#showsCalendar
+        .small-4.columns#showsCalendar
           h3 Calendar
-          ul.small-block-grid-7(data-bind="foreach: calendarDays")
+          ul.small-block-grid-1(data-bind="foreach: calendarDays")
             li.calendar(data-bind="css: countClass")
               a(data-bind="attr: {href: link() } ")
                 span.weekday(data-bind="text: weekday, visible: showWeekday")
@@ -80,9 +80,9 @@ html
   
     #vision.container.primary
       .row
-        .small-4.columns
+        .small-3.columns
           img(src="/images/crosswalk.png")
-        .small-8.medium-6.columns.end
+        .small-9.medium-6.columns.end
           h1 WalkDenton's Vision
           p WalkDenton believes that Denton, TX is a unique place and that the community is responsible is key in making this a place where people come to live because of it's small town feel, creative community and liveability. 
           p One aspect of that reputation is the accesibility it provides it's citizens to the heart of the city.
