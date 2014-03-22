@@ -1,0 +1,18 @@
+//- _food.jade
+
+block append content
+
+  #food.container.primary
+    .row
+      .small-12.medium-6.medium-push-6.columns
+        h3 Tags
+        ul.inline-list.tags(data-bind="foreach: tags")
+          li
+            a.toggle.button.tiny(data-bind="text: name")
+
+      .small-12.medium-6.medium-pull-6.columns
+        h1
+          | Food
+          small(data-bind="text: filterTags().join('|')")
+        ul.foods.small-block-grid-2.large-block-grid-3(data-bind="foreach: filtered")
+          li(data-bind="text: name")
