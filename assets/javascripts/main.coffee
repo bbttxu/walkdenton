@@ -162,7 +162,7 @@ require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarVi
 
 require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "knockout" ], ($, showDate, showModel, gigModel, ko, moment)->
 
-  showDateView = new showDate "No date selected"
+  showDateView = new showDate 
   ko.applyBindings showDateView, $('#showDate')[0]
 
   grabShowsForDate = (event, date)->
@@ -196,8 +196,8 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
       showDateView.shows shows
 
+  grabShowsForDate null, new Date()
   $(document).on 'dateChange', 'body', grabShowsForDate
-
 
 
 
