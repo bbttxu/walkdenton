@@ -11,4 +11,13 @@ define ["knockout", "underscore", "moment"], (ko, _, moment)->
 
 		self.shows = ko.observableArray []
 
+		self.showCount = ko.computed ()->
+			shows = self.shows()
+			shows.length
+
+		self.artistCount = ko.computed ()->
+			shows = self.shows()
+			
+			shows.length
+
 		self

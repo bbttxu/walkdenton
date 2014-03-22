@@ -15,6 +15,7 @@ define ["knockout", "moment"], (ko, moment)->
 		self.weekday = ko.computed ()->
 			date = self.date()
 			moment(date).format 'ddd' 
+
 		self.showWeekday = ko.computed ()->
 			date = moment self.date()
 			moment().diff(date, 'days') > offset
@@ -25,10 +26,12 @@ define ["knockout", "moment"], (ko, moment)->
 
 		self.month = ko.computed ()->
 			date = self.date()
-			moment(date).format 'MM'
+			moment(date).format 'MMM'
+
 		self.showMonth = ko.computed ()->
 			date = moment self.date()
 			moment().diff(date, 'days') <= offset
+			true
 
 		self.link = ko.computed ()->
 			'#/shows/' + self.date()
