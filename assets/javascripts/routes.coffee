@@ -25,7 +25,7 @@ define [ 'jquery', "sammy"], ($, Sammy)->
     self.get "#/shows", ()->
       showSection "#shows"
 
-      $("body").trigger 'dateChange', new Date()
+      # $("body").trigger 'dateChange',
 
       showSection "#shows"
 

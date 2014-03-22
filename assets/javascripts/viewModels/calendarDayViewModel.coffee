@@ -1,12 +1,12 @@
 # calendarDayViewModel.coffee
 
 define ["knockout", "moment"], (ko, moment)->
-	calendarDayViewModel = (date, count)->
+	calendarDayViewModel = (date = false, count)->
 		self = this
 
 		offset = -10
 
-		self.date = ko.observable date
+		self.date = ko.observable date or new Date()
 
 		self.count = ko.observable count
 		self.countClass = ko.computed ()->
