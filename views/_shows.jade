@@ -1,27 +1,27 @@
 //- _shows.jade
 
 block append content
-    #shows.container.primary
-      .row
-        .small-8.columns#showDate
-          h3(data-bind="text: formatedDate") Today
-          div.shows
-            ul.small-block-grid-1(data-bind="foreach: shows")
-              li
-                a(data-bind="attr: { href: source }")
-                  span.time(data-bind="text: startsAtTime")
-                  span.venue(data-bind="text: venue")
-                span.price(data-bind="text: price")
-                ul.gigs.small-block-grid-1(data-bind="foreach: gigs")
-                  li
-                    //- span(data-bind="text: position")  
-                    span(data-bind="text: artist")  
-  
-        .small-4.columns#showsCalendar
-          h3 Calendar
-          ul.small-block-grid-1(data-bind="foreach: calendarDays")
-            li.calendar(data-bind="css: countClass")
-              a(data-bind="attr: {href: link() } ")
-                span.weekday(data-bind="text: weekday, visible: showWeekday")
-                span.month(data-bind="text: month, visible: showMonth")
-                span.day(data-bind="text: day")
+  #shows.container.primary
+    .row
+      .small-8.columns#showDate
+        h3(data-bind="text: formatedDate") Today
+        div.shows
+          ul.small-block-grid-1(data-bind="foreach: shows")
+            li
+              a(data-bind="attr: { href: source }")
+                span.time(data-bind="text: startsAtTime")
+                span.venue(data-bind="text: venue")
+              span.price(data-bind="text: price")
+              ul.gigs.small-block-grid-1(data-bind="foreach: gigs")
+                li
+                  //- span(data-bind="text: position")  
+                  span(data-bind="text: artist")  
+
+      .small-4.columns#showsCalendar
+        h3 Calendar
+        ul.small-block-grid-1(data-bind="foreach: calendarDays")
+          li.calendar(data-bind="css: countClass")
+            a(data-bind="attr: {href: link() } ")
+              span.weekday(data-bind="text: weekday, visible: showWeekday")
+              span.month(data-bind="text: month, visible: showMonth")
+              span.day(data-bind="text: day")
