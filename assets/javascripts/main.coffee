@@ -4,6 +4,7 @@ requirejs.config
     jquery: "vendor/jquery/jquery"
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
+    'leaflet.awesome-markers': "vendor/leaflet.awesome-markers/leaflet.awesome-markers"
     sammy: "vendor/sammy/sammy"
     # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
@@ -22,6 +23,10 @@ requirejs.config
     #   deps: [ 'sammy' ]
     underscore:
       exports: "_"
+    leaflet:
+      exports: 'L'
+    'leaflet.awesome-markers':
+      deps: [ "leaflet" ]
 
 require ["jquery", "app/spinner"], ($, spinner)->
   target = document.getElementById "target"  

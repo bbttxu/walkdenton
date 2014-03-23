@@ -4,7 +4,9 @@ html
     title WalkDenton
     meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
     link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/vendor/font-awesome/css/font-awesome.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/leaflet/leaflet.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/vendor/leaflet.awesome-markers/leaflet.awesome-markers.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/style.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/map.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/calendar.css' + cachebust)
@@ -37,7 +39,9 @@ html
         ul.title-area
           li.name
             h1
-              a(href="/") Walk Denton
+              a(href="/") 
+                | Walk Denton
+                i.fa.fa-wheelchair
           li.toggle-topbar.menu-icon
             a(href="#")
               span Menu

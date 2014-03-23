@@ -10,6 +10,7 @@
     "leaflet": "~0.7.2",
     "underscore": "~1.6.0",
     "modernizr": "~2.7.1",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "font-awesome": "~4.0.3"
   }
 }

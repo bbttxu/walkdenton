@@ -1,7 +1,7 @@
 # foodViewModel.coffee
 
 
-define ["knockout", "leaflet"], (ko, L)->
+define ["knockout", "leaflet", 'leaflet.awesome-markers'], (ko, L)->
   foodViewModel = (food)->
     self = this
     self.name = ko.observable food.name
@@ -10,6 +10,12 @@ define ["knockout", "leaflet"], (ko, L)->
     self.marker = ko.computed ()->
       coordinates = self.coordinates()
       latlng = L.latLng( coordinates[1], coordinates[0])
-      L.marker(latlng)
+      iconOptions =
+        prefix: 'fa'
+        icon: 'cutlery'
+        markerColor: 'green'
+      icon = L.AwesomeMarkers.icon iconOptions   
+
+      L.marker(latlng, icon: icon)
 
     self
