@@ -154,7 +154,7 @@ require ["leaflet"], (L)->
 
   $(document).on 'map:setDataset', 'body', setMarkers
 
-require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
+require ["jquery", "knockout", "underscore", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, tagViewModel, foodViewModel, foodsViewModel)->
 
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
