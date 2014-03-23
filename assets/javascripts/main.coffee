@@ -59,7 +59,9 @@ require ["leaflet"], (L)->
     setView: false
     maxZoom: 17
     watch: true
+    timeout: 6000
     maximumAge: 6000
+    enableHighAccuracy: true
 
   map.locate locateOptions
 
@@ -81,10 +83,13 @@ require ["leaflet"], (L)->
 
 
   onLocationFound = (e) ->
+    console.log e
     console.log 'onLocationFound'
     radius = e.accuracy / 2
-    radius = 100
-    circle.setLatLng(map.getCenter());
+    radius = 1000
+
+    console.log e
+    circle.setLatLng e.latlng
     circle.setRadius radius
 
     # latLngs = _.map currentMarkers, (marker)->
@@ -94,7 +99,7 @@ require ["leaflet"], (L)->
 
     # bounds = L.latLngBounds latLngs
     bounds = currentMarkerBounds()
-    bounds.push map.getCenter()
+    bounds.push e.latlng
 
     map.fitBounds L.latLngBounds bounds
 
@@ -174,7 +179,7 @@ require ["leaflet"], (L)->
 
     map.fitBounds L.latLngBounds bounds
     # onLocationFound accuracy: 2000
-    $(document).trigger 'locationFound'
+    # $(document).trigger 'locationFound'
 
   $(document).on 'map:setDataset', 'body', setMarkers
 
