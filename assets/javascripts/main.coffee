@@ -37,7 +37,7 @@ require ["jquery", "fastclick", "foundation"], ($) ->
 require ["routes"], (app)->
   app.run "#/vision"
 
-require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
+require ["leaflet"], (L)->
   options =
     dragging: false
     touchZoom: false
@@ -52,8 +52,14 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
     maxZoom: 18
   ).addTo map
 
-  map.locate({setView: true, maxZoom: 17})
-  map.locate({watch: true, maximumAge: 6000, setView: true})
+
+  locateOptions = 
+    setView: false
+    maxZoom: 17
+    watch: true
+    maximumAge: 6000
+
+  map.locate locateOptions
 
   options =
     color: '#00f'
@@ -82,6 +88,35 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
     console.log e.message
   map.on "locationerror", onLocationError
 
+  setMarkers = (event, data)->
+    console.log event, data
+
+  $(document).on 'map:setDataset', 'body', setMarkers
+
+require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
+  # options =
+  #   dragging: false
+  #   touchZoom: false
+  #   scrollWheelZoom: false
+  #   doubleClickZoom: false
+  #   boxZoom: false
+  #   zoomControl: false
+  # map = L.map('map', options).setView([33.215194, -97.132788], 14)
+
+  # L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  #   attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
+  #   maxZoom: 18
+  # ).addTo map
+
+  # map.locate({setView: true, maxZoom: 17})
+  # map.locate({watch: true, maximumAge: 6000, setView: true})
+
+  # options =
+  #   color: '#00f'
+  # circle = L.circle([0, 0], 100, options ).addTo(map);
+
+
+
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
 
@@ -97,6 +132,7 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
 
 
   $(document).ready ()->
+
     $("ul.tags").on 'click', 'a.toggle', (event)->
       event.preventDefault()
       $(this).toggleClass 'toggled'
