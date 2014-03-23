@@ -66,32 +66,48 @@ require ["leaflet"], (L)->
   options =
     color: '#00f'
     
-  circle = L.circle([0, 0], 100, options ).addTo(map);
+  circle = L.circle([33.215194, -97.132788], 100, options ).addTo(map);
 
   currentMarkers = {}
 
+  currentMarkerBounds = ()->
+    latLngs = for key, markers of currentMarkers
+      for marker in markers
+        marker.getLatLng() if marker isnt undefined
+    # bounds = L.latLngBounds latLngs
+
+
+
+
+
   onLocationFound = (e) ->
+    console.log 'onLocationFound'
     radius = e.accuracy / 2
     radius = 100
     circle.setLatLng(map.getCenter());
     circle.setRadius radius
 
-    latLngs = _.map currentMarkers, (marker)->
-      marker.getLatLng()
+    # latLngs = _.map currentMarkers, (marker)->
+    #   marker.getLatLng()
 
-    latLngs.push circle.getLatLng()
+    # latLngs.push circle.getLatLng()
 
-    bounds = L.latLngBounds latLngs
+    # bounds = L.latLngBounds latLngs
+    bounds = currentMarkerBounds()
+    bounds.push map.getCenter()
 
-    map.fitBounds bounds
+    map.fitBounds L.latLngBounds bounds
 
   map.on "locationfound", onLocationFound
+  $(document).on 'locationFound', onLocationFound
 
   onLocationError = (e) ->
     console.log e.message
+
   map.on "locationerror", onLocationError
 
   setMarkers = (event, data)->
+    console.log 'setMarkers'
 
     latLngs = []
 
@@ -100,8 +116,11 @@ require ["leaflet"], (L)->
       for marker in markers
         map.removeLayer marker
 
+    currentMarkers = data
+
+
     # simply add new markers
-    for key, markers of data
+    for key, markers of currentMarkers
       for marker in markers
         latLngs.push marker.getLatLng()
         marker.addTo map
@@ -110,7 +129,6 @@ require ["leaflet"], (L)->
     #   console.log marker
     #   marker.addTo map
 
-    currentMarkers = data
 
     # for key, markers of currentMarkers
 
@@ -149,11 +167,14 @@ require ["leaflet"], (L)->
     latLngs.push circle.getLatLng()
 
 
-    bounds = L.latLngBounds latLngs
+    bounds = currentMarkerBounds()
+    bounds.push circle.getLatLng()
+    # console.log bounds
+    # bounds.push circle.getLatLng()
 
-    map.fitBounds bounds
-
-
+    map.fitBounds L.latLngBounds bounds
+    # onLocationFound accuracy: 2000
+    $(document).trigger 'locationFound'
 
   $(document).on 'map:setDataset', 'body', setMarkers
 
@@ -218,10 +239,12 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
   ko.applyBindings showDateView, $('#showDate')[0]
 
   grabShowsForDate = (event, date)->
+    console.log 'grabShowsForDates'
     showDateView.date(date)
     showDateView.shows []
 
     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
+      console.log 'grabShowsForDates callback'
       artistByID = (artistID)->
         for artist in data.artists
           return artist.name if artist.id is artistID
