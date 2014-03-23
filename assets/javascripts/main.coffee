@@ -40,7 +40,7 @@ require ["jquery", "fastclick", "foundation"], ($) ->
     $(document).foundation()
 
 require ["routes"], (app)->
-  app.run "#/vision"
+  app.run "#/shows"
 
 require ["leaflet"], (L)->
   options =
