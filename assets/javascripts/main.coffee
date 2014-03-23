@@ -43,8 +43,8 @@ require ["jquery", "app/spinner"], ($, spinner)->
   $(document).ajaxStart ()-> increment(1)
   $(document).ajaxStop ()-> increment(-1)
 
-  $(document).on "spinner:start" ()-> increment(1)
-  $(document).on "spinner:stop" ()-> sincrement(-1)
+  # $(document).on "spinner:start" ()-> increment(1)
+  # $(document).on "spinner:stop" ()-> sincrement(-1)
 
 require ["jquery", "fastclick", "foundation"], ($) ->
   $(document).ready ()->
