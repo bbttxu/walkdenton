@@ -32,16 +32,16 @@ require ["jquery", "app/spinner"], ($, spinner)->
   target = document.getElementById "target"  
   spinner.spin(target)
 
-  count = 0
+  # count = 0
 
 
-  increment = (value = 0)->
-    count = count + value
-    spinner.spin() if count > 0
-    spinner.stop() if count <= 0
+  # increment = (value = 0)->
+  #   count = count + value
+  #   spinner.spin() if count > 0
+  #   spinner.stop() if count <= 0
 
-  $(document).ajaxStart ()-> increment(1)
-  $(document).ajaxStop ()-> increment(-1)
+  $(document).ajaxStart ()-> spinner.spin()
+  $(document).ajaxStop ()-> spinner.stop()
 
   # $(document).on "spinner:start" ()-> increment(1)
   # $(document).on "spinner:stop" ()-> sincrement(-1)
