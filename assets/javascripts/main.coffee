@@ -96,12 +96,9 @@ require ["leaflet"], (L)->
   $(document).trigger "spinner:start"
   onLocationFound = (e) ->
     $(document).trigger "spinner:stop"
-    console.log e
-    console.log 'onLocationFound'
     radius = e.accuracy / 2
     radius = 1000
 
-    console.log e
     circle.setLatLng e.latlng
     circle.setRadius radius
 
@@ -125,7 +122,7 @@ require ["leaflet"], (L)->
   map.on "locationerror", onLocationError
 
   setMarkers = (event, data)->
-    console.log 'setMarkers'
+    # console.log 'setMarkers'
 
     latLngs = []
 
@@ -257,12 +254,12 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
   ko.applyBindings showDateView, $('#showDate')[0]
 
   grabShowsForDate = (event, date)->
-    console.log 'grabShowsForDates'
+    # console.log 'grabShowsForDates'
     showDateView.date(date)
     showDateView.shows []
 
     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
-      console.log 'grabShowsForDates callback'
+      # console.log 'grabShowsForDates callback'
       artistByID = (artistID)->
         for artist in data.artists
           return artist.name if artist.id is artistID
