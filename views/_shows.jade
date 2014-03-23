@@ -11,7 +11,7 @@ block append content
               .meta
                 span.time(data-bind="text: startsAtTime")
                 a(data-bind="attr: { href: source }")
-                  span.venue(data-bind="text: venue")
+                  span.venue(data-bind="text: venue().name")
                 span.price(data-bind="text: price")
               ul.gigs.small-block-grid-1(data-bind="foreach: gigs")
                 li(data-bind="text: artist")

@@ -65,7 +65,7 @@ require ["leaflet"], (L)->
     color: '#00f'
   circle = L.circle([0, 0], 100, options ).addTo(map);
 
-  currentMarkers = []
+  currentMarkers = {}
 
   onLocationFound = (e) ->
     radius = e.accuracy / 2
@@ -89,33 +89,72 @@ require ["leaflet"], (L)->
   map.on "locationerror", onLocationError
 
   setMarkers = (event, data)->
-    console.log event, data
+
+    latLngs = []
+
+    # simply remove existing markers from map
+    for key, markers of currentMarkers
+      for marker in markers
+        map.removeLayer marker
+
+    # simply add new markers
+    for key, markers of data
+      for marker in markers
+        latLngs.push marker.getLatLng()
+        marker.addTo map
+
+    # for marker in data
+    #   console.log marker
+    #   marker.addTo map
+
+    currentMarkers = data
+
+    # for key, markers of currentMarkers
+
+
+
+    #   for marker in markers
+    #     addTheseMarkers.push marker
+    #     latLngs.push marker.getLatLng()
+
+
+
+    # remove markers no longer on map
+    # deleteTheseMarkers = _.difference currentMarkers, data
+    # console.log deleteTheseMarkers
+
+    # for marker in deleteTheseMarkers
+    #   map.removeLayer marker
+
+    # add new markers, not already on map
+    # addTheseMarkers = _.difference data, currentMarkers
+    # console.log addTheseMarkers
+
+    if latLngs.length is 0
+      addTheseMarkers = currentMarkers
+      circle.setRadius 100
+
+    if latLngs.length isnt 0
+      circle.setRadius 1000
+
+    # for marker in addTheseMarkers
+    #   marker.addTo(map)
+
+    # latLngs = _.map currentMarkers, (marker)->
+    #   marker.getLatLng()
+
+    # latLngs.push circle.getLatLng()
+
+
+    bounds = L.latLngBounds latLngs
+
+    map.fitBounds bounds
+
+
 
   $(document).on 'map:setDataset', 'body', setMarkers
 
 require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, L, tagViewModel, foodViewModel, foodsViewModel)->
-  # options =
-  #   dragging: false
-  #   touchZoom: false
-  #   scrollWheelZoom: false
-  #   doubleClickZoom: false
-  #   boxZoom: false
-  #   zoomControl: false
-  # map = L.map('map', options).setView([33.215194, -97.132788], 14)
-
-  # L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  #   attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
-  #   maxZoom: 18
-  # ).addTo map
-
-  # map.locate({setView: true, maxZoom: 17})
-  # map.locate({watch: true, maximumAge: 6000, setView: true})
-
-  # options =
-  #   color: '#00f'
-  # circle = L.circle([0, 0], 100, options ).addTo(map);
-
-
 
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
@@ -149,35 +188,9 @@ require ["jquery", "knockout", "underscore", "leaflet", "tagViewModel", "foodVie
       foodsView.filterTags tags
 
       # grab new aka current markers if tags are enabled
-      currentMarkers = []
-      currentMarkers = foodsView.markers() if tags.length isnt 0
-
-      # remove markers no longer on map
-      deleteTheseMarkers = _.difference previousMarkers, currentMarkers
-      for marker in deleteTheseMarkers
-        map.removeLayer marker
-
-      # add new markers, not already on map
-      addTheseMarkers = _.difference currentMarkers, previousMarkers
-      if addTheseMarkers.length is 0
-        addTheseMarkers = currentMarkers
-        circle.setRadius 100
-
-      if addTheseMarkers.length isnt 0
-        circle.setRadius 1000
-
-      for marker in addTheseMarkers
-        marker.addTo(map)
-
-      latLngs = _.map currentMarkers, (marker)->
-        marker.getLatLng()
-
-      latLngs.push circle.getLatLng()
-
-
-      bounds = L.latLngBounds latLngs
-
-      map.fitBounds bounds
+      # currentMarkers = []
+      # currentMarkers = foodsView.markers() if tags.length isnt 0
+      $('#map').trigger 'map:setDataset', food: foodsView.markers()
 
 
 require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
@@ -196,7 +209,7 @@ require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarVi
   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
   #   console.log asdf
 
-require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "knockout" ], ($, showDate, showModel, gigModel, ko, moment)->
+require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], ($, showDate, showModel, gigModel, venueModel, ko)->
 
   showDateView = new showDate 
   ko.applyBindings showDateView, $('#showDate')[0]
@@ -216,21 +229,26 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
           return gig if gig.id is id
         "no gig found"
 
-      venueByID = (id)->
+      venueViewByID = (id)->
         for venue in data.venues
-          return venue.name if venue.id is id
+          return new venueModel venue if venue.id is id
         "no venue found"
 
       shows = for thisShow in data.shows
-        thisShow.venue = venueByID(thisShow.venues)
         thisShow.gigs = for gig in thisShow.gigs
           gig = gigByID gig
           gig.artist = artistByID(gig.artists)
           new gigModel gig
 
-        new showModel thisShow 
+        showView = new showModel thisShow 
+
+        showView.venue( venueViewByID( thisShow.venues ) )
+
+        showView
 
       showDateView.shows shows
+
+      $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
 
   grabShowsForDate null, new Date()
   $(document).on 'dateChange', 'body', grabShowsForDate
