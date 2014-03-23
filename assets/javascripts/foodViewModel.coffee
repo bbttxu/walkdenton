@@ -16,6 +16,7 @@ define ["knockout", "leaflet", 'leaflet.awesome-markers'], (ko, L)->
         markerColor: 'green'
       icon = L.AwesomeMarkers.icon iconOptions   
 
-      L.marker(latlng, icon: icon)
+      marker = L.marker(latlng, icon: icon)
+      marker.bindPopup("<b>"+self.name()+"</b>")
 
     self
