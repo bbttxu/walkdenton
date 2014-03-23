@@ -32,8 +32,19 @@ require ["jquery", "app/spinner"], ($, spinner)->
   target = document.getElementById "target"  
   spinner.spin(target)
 
-  $(document).ajaxStart ()-> spinner.spin()
-  $(document).ajaxStop ()-> spinner.stop()    
+  count = 0
+
+
+  increment = (value = 0)->
+    count = count + value
+    spinner.spin() if count > 0
+    spinner.stop() if count <= 0
+
+  $(document).ajaxStart ()-> increment(1)
+  $(document).ajaxStop ()-> increment(-1)
+
+  $(document).on "spinner:start" ()-> increment(1)
+  $(document).on "spinner:stop" ()-> sincrement(-1)
 
 require ["jquery", "fastclick", "foundation"], ($) ->
   $(document).ready ()->
@@ -82,7 +93,9 @@ require ["leaflet"], (L)->
 
 
 
+  $(document).trigger "spinner:start"
   onLocationFound = (e) ->
+    $(document).trigger "spinner:stop"
     console.log e
     console.log 'onLocationFound'
     radius = e.accuracy / 2
