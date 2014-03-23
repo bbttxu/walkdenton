@@ -1,5 +1,5 @@
 # routes.coffee
-define [ 'jquery', "sammy"], ($, Sammy)->
+define [ 'jquery', "sammy", "moment"], ($, Sammy, moment)->
   routes = Sammy 'body', ()->
     self = this
 
@@ -29,7 +29,10 @@ define [ 'jquery', "sammy"], ($, Sammy)->
 
       showSection "#shows"
 
-    self.get "#/", ()->
-      showSection "#map"
+    # self.get "#/", ()->
+    #   showSection "#map"
+
+    # self.get /.*/, ()->
+    #   self.redirect '#/shows/' + moment().format('YYYY-MM-DD')
 
     self

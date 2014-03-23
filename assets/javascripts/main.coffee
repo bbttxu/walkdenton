@@ -39,9 +39,6 @@ require ["jquery", "fastclick", "foundation"], ($) ->
   $(document).ready ()->
     $(document).foundation()
 
-require ["routes"], (app)->
-  app.run "#/shows"
-
 require ["leaflet"], (L)->
   options =
     dragging: false
@@ -68,6 +65,7 @@ require ["leaflet"], (L)->
 
   options =
     color: '#00f'
+    
   circle = L.circle([0, 0], 100, options ).addTo(map);
 
   currentMarkers = {}
@@ -148,7 +146,7 @@ require ["leaflet"], (L)->
     # latLngs = _.map currentMarkers, (marker)->
     #   marker.getLatLng()
 
-    # latLngs.push circle.getLatLng()
+    latLngs.push circle.getLatLng()
 
 
     bounds = L.latLngBounds latLngs
@@ -255,12 +253,13 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
       $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
 
-  grabShowsForDate null, new Date()
-  $(document).on 'dateChange', 'body', grabShowsForDate
+  $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
 
 
 
 
+require ["routes", "moment"], (app, moment)->
+  app.run '#/shows/' + moment().format('YYYY-MM-DD')
 
 
 
