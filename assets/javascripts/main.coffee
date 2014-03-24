@@ -46,7 +46,7 @@ require ["jquery", "app/spinner"], ($, spinner)->
   # $(document).on "spinner:start" ()-> increment(1)
   # $(document).on "spinner:stop" ()-> sincrement(-1)
 
-require ["jquery", "fastclick", "foundation"], ($) ->
+require ["jquery", "foundation", "fastclick"], ($) ->
   $(document).ready ()->
     $(document).foundation()
 
@@ -93,9 +93,9 @@ require ["leaflet"], (L)->
 
 
 
-  $(document).trigger "spinner:start"
+  # $(document).trigger "spinner:start"
   onLocationFound = (e) ->
-    $(document).trigger "spinner:stop"
+    # $(document).trigger "spinner:stop"
     radius = e.accuracy / 2
     radius = 1000
 
@@ -121,24 +121,53 @@ require ["leaflet"], (L)->
 
   map.on "locationerror", onLocationError
 
+  clearMarkers = ()->
+    currentMarkers = {}
+
   setMarkers = (event, data)->
-    # console.log 'setMarkers'
+    possiblyRemove = _.difference _.keys(currentMarkers), _.keys(data)
+    possiblyUpdate = _.difference _.keys(data), _.keys(currentMarkers)
 
     latLngs = []
 
     # simply remove existing markers from map
-    for key, markers of currentMarkers
-      for marker in markers
+    # unless _.isEmpty possiblyRemove
+    #   for key in possiblyRemove
+    #     # console.log ["remove", key, "?"].join(" ")
+    #     for marker in currentMarkers[key]
+    #       map.removeLayer marker
+
+
+    # simply add new markers
+    for key in _.keys data
+
+      current = currentMarkers[key]
+      updated = data[key]
+
+      # console.log "remove", _.difference(current, updated)
+      # console.log "add", _.difference(updated, current)
+
+      for marker in _.difference(current, updated)
         map.removeLayer marker
+
+      for marker in _.difference(updated, current)
+        marker.addTo map
+
 
     currentMarkers = data
 
 
-    # simply add new markers
-    for key, markers of currentMarkers
-      for marker in markers
-        latLngs.push marker.getLatLng()
-        marker.addTo map
+
+    #     # for marker in currentMarkers[key]
+    #     #   console.log marker
+    #     #   # # latLngs.push marker.getLatLng()
+    #     #   marker.addTo map
+
+
+    # for key in possiblyUpdate
+    #   console.log "possibly update"
+    #   console.log key, currentMarkers[key]
+    #   console.log key, data[key]
 
     # for marker in data
     #   console.log marker
@@ -166,12 +195,12 @@ require ["leaflet"], (L)->
     # addTheseMarkers = _.difference data, currentMarkers
     # console.log addTheseMarkers
 
-    if latLngs.length is 0
-      addTheseMarkers = currentMarkers
-      circle.setRadius 100
+    # if latLngs.length is 0
+    #   addTheseMarkers = currentMarkers
+    #   circle.setRadius 100
 
-    if latLngs.length isnt 0
-      circle.setRadius 1000
+    # if latLngs.length isnt 0
+    circle.setRadius 1000
 
     # for marker in addTheseMarkers
     #   marker.addTo(map)
@@ -191,6 +220,7 @@ require ["leaflet"], (L)->
     # onLocationFound accuracy: 2000
     # $(document).trigger 'locationFound'
 
+  $(document).on 'map:clear', 'body', clearMarkers
   $(document).on 'map:setDataset', 'body', setMarkers
 
 require ["jquery", "knockout", "underscore", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, tagViewModel, foodViewModel, foodsViewModel)->
