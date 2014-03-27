@@ -11,6 +11,7 @@ html
     link(rel='stylesheet', href='/stylesheets/map.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/calendar.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/shows.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/food.css' + cachebust)
 
     if reload
       script(src='/socket.io/socket.io.js')
@@ -47,8 +48,8 @@ html
 
         section.top-bar-section
           ul.right
-            li
-              a( href="#/shows") Shows
+            //- li
+            //-   a( href="#/shows") Shows
             li
               a( href="#/food") Food
             li
