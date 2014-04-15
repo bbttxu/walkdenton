@@ -327,7 +327,8 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
 
 require ["routes", "moment"], (app, moment)->
-  app.run '#/shows/' + moment().format('YYYY-MM-DD')
+  # app.run '#/shows/' + moment().format('YYYY-MM-DD')
+  app.run '#/foods/'
 
 
 
