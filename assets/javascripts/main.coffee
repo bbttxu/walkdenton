@@ -12,6 +12,7 @@ requirejs.config
     moment: "vendor/moment/moment"
     fastclick: "vendor/fastclick/fastclick"
     spin: "vendor/spin/spin"
+    postal: "vendor/postaljs/postal"
 
   shim:
     'foundation':
@@ -28,29 +29,32 @@ requirejs.config
     'leaflet.awesome-markers':
       deps: [ "leaflet" ]
 
-require ["jquery", "app/spinner"], ($, spinner)->
+require ["postal", "app/spinner"], (postal, spinner)->
+  channel = postal.channel()
+
   target = document.getElementById "target"  
   spinner.spin(target)
 
-  # count = 0
+  channel.subscribe 'animate', (shouldAnimate)->    
+    spinner.spin() if shouldAnimate
+    spinner.stop() unless shouldAnimate
 
 
-  # increment = (value = 0)->
-  #   count = count + value
-  #   spinner.spin() if count > 0
-  #   spinner.stop() if count <= 0
+require ["jquery", "postal"], ($, postal)->
+  channel = postal.channel()
 
-  $(document).ajaxStart ()-> spinner.spin()
-  $(document).ajaxStop ()-> spinner.stop()
+  $(document).ajaxStart ()-> channel.publish "animate", true
+  $(document).ajaxStop ()-> channel.publish "animate", false
 
-  # $(document).on "spinner:start" ()-> increment(1)
-  # $(document).on "spinner:stop" ()-> sincrement(-1)
 
 require ["jquery", "foundation", "fastclick"], ($) ->
   $(document).ready ()->
     $(document).foundation()
 
-require ["leaflet"], (L)->
+
+require ["leaflet", "postal"], (L, postal)->
+  channel = postal.channel()
+
   options =
     dragging: false
     touchZoom: false
@@ -89,54 +93,34 @@ require ["leaflet"], (L)->
         marker.getLatLng() if marker isnt undefined
     # bounds = L.latLngBounds latLngs
 
-
-
-
-
-  # $(document).trigger "spinner:start"
   onLocationFound = (e) ->
-    # $(document).trigger "spinner:stop"
+
     radius = e.accuracy / 2
     radius = 1000
 
     circle.setLatLng e.latlng
     circle.setRadius radius
 
-    # latLngs = _.map currentMarkers, (marker)->
-    #   marker.getLatLng()
-
-    # latLngs.push circle.getLatLng()
-
-    # bounds = L.latLngBounds latLngs
     bounds = currentMarkerBounds()
     bounds.push e.latlng
 
     map.fitBounds L.latLngBounds bounds
 
   map.on "locationfound", onLocationFound
-  $(document).on 'locationFound', onLocationFound
 
   onLocationError = (e) ->
     console.log e.message
 
   map.on "locationerror", onLocationError
 
-  clearMarkers = ()->
+  clearMarkers = (data)->
     currentMarkers = {}
 
-  setMarkers = (event, data)->
+  setMarkers = (data)->
     possiblyRemove = _.difference _.keys(currentMarkers), _.keys(data)
     possiblyUpdate = _.difference _.keys(data), _.keys(currentMarkers)
 
     latLngs = []
-
-    # simply remove existing markers from map
-    # unless _.isEmpty possiblyRemove
-    #   for key in possiblyRemove
-    #     # console.log ["remove", key, "?"].join(" ")
-    #     for marker in currentMarkers[key]
-    #       map.removeLayer marker
-
 
     # simply add new markers
     for key in _.keys data
@@ -144,90 +128,34 @@ require ["leaflet"], (L)->
       current = currentMarkers[key]
       updated = data[key]
 
-      # console.log "remove", _.difference(current, updated)
-      # console.log "add", _.difference(updated, current)
-
       for marker in _.difference(current, updated)
         map.removeLayer marker
 
       for marker in _.difference(updated, current)
         marker.addTo map
 
-
     currentMarkers = data
 
-
-
-    #     # for marker in currentMarkers[key]
-    #     #   console.log marker
-    #     #   # # latLngs.push marker.getLatLng()
-    #     #   marker.addTo map
-
-
-    # for key in possiblyUpdate
-    #   console.log "possibly update"
-    #   console.log key, currentMarkers[key]
-    #   console.log key, data[key]
-
-    # for marker in data
-    #   console.log marker
-    #   marker.addTo map
-
-
-    # for key, markers of currentMarkers
-
-
-
-    #   for marker in markers
-    #     addTheseMarkers.push marker
-    #     latLngs.push marker.getLatLng()
-
-
-
-    # remove markers no longer on map
-    # deleteTheseMarkers = _.difference currentMarkers, data
-    # console.log deleteTheseMarkers
-
-    # for marker in deleteTheseMarkers
-    #   map.removeLayer marker
-
-    # add new markers, not already on map
-    # addTheseMarkers = _.difference data, currentMarkers
-    # console.log addTheseMarkers
-
-    # if latLngs.length is 0
-    #   addTheseMarkers = currentMarkers
-    #   circle.setRadius 100
-
-    # if latLngs.length isnt 0
     circle.setRadius 1000
-
-    # for marker in addTheseMarkers
-    #   marker.addTo(map)
-
-    # latLngs = _.map currentMarkers, (marker)->
-    #   marker.getLatLng()
 
     latLngs.push circle.getLatLng()
 
 
     bounds = currentMarkerBounds()
     bounds.push circle.getLatLng()
-    # console.log bounds
-    # bounds.push circle.getLatLng()
 
     map.fitBounds L.latLngBounds bounds
-    # onLocationFound accuracy: 2000
-    # $(document).trigger 'locationFound'
 
-  $(document).on 'map:clear', 'body', clearMarkers
-  $(document).on 'map:setDataset', 'body', setMarkers
+  channel.subscribe "clear", clearMarkers
+  channel.subscribe "set.setDataset", setMarkers
 
-require ["jquery", "knockout", "underscore", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, tagViewModel, foodViewModel, foodsViewModel)->
+
+require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, postal, tagViewModel, foodViewModel, foodsViewModel)->
+
+  channel = postal.channel()
 
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
-
 
   $.getJSON "http://192.241.185.162/foods.json?callback=?", (data, status)->
     foods = for food in data.foods
@@ -259,7 +187,9 @@ require ["jquery", "knockout", "underscore", "tagViewModel", "foodViewModel", "f
       # grab new aka current markers if tags are enabled
       # currentMarkers = []
       # currentMarkers = foodsView.markers() if tags.length isnt 0
-      $('#map').trigger 'map:setDataset', food: foodsView.markers()
+
+      channel.publish "set.setDataset", food: foodsView.markers()
+      # $('#map').trigger 'map:setDataset', food: foodsView.markers()
 
 
 require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
@@ -319,7 +249,12 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
       showDateView.shows shows
 
+      console.log showDateView.venueMarkers()
+
       $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
+
+
+
 
   $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
 
@@ -328,7 +263,7 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
 require ["routes", "moment"], (app, moment)->
   # app.run '#/shows/' + moment().format('YYYY-MM-DD')
-  app.run '#/foods/'
+  app.run '#/food'
 
 
 
