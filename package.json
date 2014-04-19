@@ -1,14 +1,11 @@
 {
   "name": "walkdenton",
   "version": "0.0.2",
-  "homepage": "",
+  "homepage": "https://github.com/bbttxu/walkdenton",
   "author": "",
-  "description": "",
+  "description": "[walkdenton.org](http://walkdenton.org/)",
   "contributors": [
-    {
-      "name": "",
-      "email": ""
-    }
+    ""
   ],
   "private": true,
   "dependencies": {
@@ -20,5 +17,17 @@
   "devDependencies": {
     "grunt": "~0.4.4",
     "grunt-bump": "0.0.13"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bbttxu/walkdenton.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bbttxu/walkdenton/issues"
   }
 }
