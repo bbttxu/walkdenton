@@ -195,7 +195,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
 require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
   calendarView = new calendarViewModel()
 
-  ko.applyBindings calendarView, $("#showsCalendar")[0]
+  # ko.applyBindings calendarView, $("#showsCalendar")[0]
 
   grabCalendar = ()->
     $.getJSON "http://denton1.krakatoa.io/shows/calendar.json?callback=?", (data, status)->
@@ -249,7 +249,7 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
       showDateView.shows shows
 
-      console.log showDateView.venueMarkers()
+      # console.log showDateView.venueMarkers()
 
       $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
 
@@ -262,8 +262,8 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
 
 require ["routes", "moment"], (app, moment)->
-  # app.run '#/shows/' + moment().format('YYYY-MM-DD')
-  app.run '#/food'
+  app.run '#/shows/' + moment().format('YYYY-MM-DD')
+  # app.run '#/food'
 
 
 
