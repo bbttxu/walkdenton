@@ -39,6 +39,10 @@ require ["postal", "app/spinner"], (postal, spinner)->
     spinner.spin() if shouldAnimate
     spinner.stop() unless shouldAnimate
 
+require ["jquery", "foundation"], ($, foundation)->
+  $(document).ready ()->
+    $(document).foundation()
+
 
 require ["jquery", "postal"], ($, postal)->
   channel = postal.channel()
@@ -208,7 +212,9 @@ require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarVi
   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
   #   console.log asdf
 
-require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], ($, showDate, showModel, gigModel, venueModel, ko)->
+require [ "postal", "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], (postal, $, showDate, showModel, gigModel, venueModel, ko)->
+  channel = postal.channel()
+
 
   showDateView = new showDate 
   ko.applyBindings showDateView, $('#showDate')[0]
@@ -251,18 +257,15 @@ require [ "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", 
 
       # console.log showDateView.venueMarkers()
 
-      $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
+      # $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
 
-
+      channel.publish 'set.setDataset', venues: showDateView.venueMarkers()
 
 
   $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
 
-
-
-
 require ["routes", "moment"], (app, moment)->
-  app.run '#/shows/' + moment().format('YYYY-MM-DD')
+  app.run '#/shows'
   # app.run '#/food'
 
 

@@ -23,6 +23,9 @@ define [ 'jquery', "sammy", "moment"], ($, Sammy, moment)->
       showSection "#shows"
 
     self.get "#/shows", ()->
+      date = this.params.date
+
+      $("body").trigger 'dateChange', date
       showSection "#shows"
 
       # $("body").trigger 'dateChange',
