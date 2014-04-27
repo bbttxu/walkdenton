@@ -39,9 +39,9 @@ require ["postal", "app/spinner"], (postal, spinner)->
     spinner.spin() if shouldAnimate
     spinner.stop() unless shouldAnimate
 
-require ["jquery", "foundation"], ($, foundation)->
-  $(document).ready ()->
-    $(document).foundation()
+# require ["jquery", "foundation"], ($, foundation)->
+#   $(document).ready ()->
+#     $(document).foundation()
 
 
 require ["jquery", "postal"], ($, postal)->

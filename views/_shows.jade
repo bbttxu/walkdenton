@@ -13,7 +13,7 @@ block append content
       //-         span.day(data-bind="text: day")
 
       .small-12.columns#showDate
-        h3(data-bind="text: formatedDate") Today
+        h1(data-bind="text: formatedDate") Today
         div.shows
           ul.small-block-grid-1.shows(data-bind="foreach: current")
             li
@@ -21,7 +21,7 @@ block append content
                 .columns.small-12.medium-4.large-2.time
                   span.time(data-bind="text: moment(date).format('hh:mm A')")
 
-                .columns.small-12.medium-8.large-10.upcoming
+                .columns.small-12.medium-8.end.upcoming
                   ul(data-bind="foreach: shows").asdf.small-block-grid-1.medium-block-grid-2
                     li
                       .meta
