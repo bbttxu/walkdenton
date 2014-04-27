@@ -1,9 +1,21 @@
 # routes.coffee
-define [ 'jquery', "sammy", "moment"], ($, Sammy, moment)->
+define [ 'jquery', "sammy", "moment", "sammy.json", "sammy.storage", "sammy.oauth2"], ($, Sammy, moment)->
+  
+
+
   routes = Sammy 'body', ()->
+
     self = this
 
     # use(Sammy.GoogleAnalytics)
+
+    self.use 'JSON'
+    self.use 'Session'
+    self.use 'Storage' 
+    self.use 'OAuth2' 
+    self.oauthorize = "/oauth/authorize"
+
+    # self.requireOAuth()
 
     showSection = (selector)->
       $('.primary').not(selector).slideUp('fast')

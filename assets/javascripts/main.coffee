@@ -5,7 +5,12 @@ requirejs.config
     foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
     'leaflet.awesome-markers': "vendor/leaflet.awesome-markers/leaflet.awesome-markers"
+
     sammy: "vendor/sammy/sammy"
+    'sammy.json': "vendor/sammy/sammy.json"
+    'sammy.storage': "vendor/sammy/sammy.storage"
+    'sammy.oauth2': "vendor/sammy/sammy.oauth2"
+
     # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
     underscore: "vendor/underscore/underscore"
@@ -22,6 +27,13 @@ requirejs.config
       exports: "Sammy"
     # 'sammy-google-analytics':
     #   deps: [ 'sammy' ]
+    'sammy.json':
+      deps: [ 'sammy' ]
+    'sammy.storage':
+      deps: [ 'sammy' ]
+
+    'sammy.oauth2':
+      deps: [ 'sammy' ]
     underscore:
       exports: "_"
     leaflet:
