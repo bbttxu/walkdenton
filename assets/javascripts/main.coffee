@@ -122,6 +122,8 @@ require ["leaflet", "postal"], (L, postal)->
 
     map.fitBounds L.latLngBounds bounds
 
+    channel.publish "map:center", e.latlng
+
   map.on "locationfound", onLocationFound
 
   onLocationError = (e) ->
@@ -173,14 +175,35 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
 
-  $.getJSON "http://192.241.185.162/foods.json?callback=?", (data, status)->
-    foods = for food in data.foods
-      new foodViewModel(food)
+  defaultLocation = 
+    distance: 10
+    latitude: 33.215194
+    longitude: -97.132788
 
-    foodsView.foods foods
+  update = (location)->
+    $.getJSON "http://topdenton.krakatoa.io/foods.json?callback=?", location, (data, status)->
 
-    for food in foodsView.markers
-      marker.addTo(map)
+      console.log "update", location, data
+      foods = for food in data
+        new foodViewModel(food)
+
+      foodsView.foods foods unless _.isEmpty foods
+
+      for food in foodsView.markers
+        marker.addTo(map)
+
+
+  update defaultLocation
+
+  channel.subscribe "map:center", (data)->
+    location =
+      distance: 3
+
+    location.latitude = data.lat if data.lat
+    location.longitude = data.lng if data.lng
+
+    update _.defaults location, defaultLocation
+
 
 
   $(document).ready ()->
