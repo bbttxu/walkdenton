@@ -41,12 +41,18 @@ html
           li.name
             h1
               a(href="/") 
-                | Walk Denton
+                span.verb Walk
+                | Denton
           li.toggle-topbar.menu-icon
             a(href="#")
               span Menu
 
         section.top-bar-section
+          ul.left
+            li.toggle
+              a#toggleVerb( href='#')
+                i.fa.fa-wheelchair
+
           ul.right
             li
               a( href="#/shows") Shows

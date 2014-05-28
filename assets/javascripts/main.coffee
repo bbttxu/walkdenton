@@ -168,22 +168,64 @@ require ["leaflet", "postal"], (L, postal)->
   channel.subscribe "set.setDataset", setMarkers
 
 
-require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, postal, tagViewModel, foodViewModel, foodsViewModel)->
-
+require ["postal"], (postal)->
   channel = postal.channel()
+
+  document.getElementById("toggleVerb").onclick = (->
+    i = 0
+    states = [
+      "walk"
+      "bike"
+      "drive"
+    ]
+    icons = [
+      "fa-wheelchair"
+      "fa-plane"
+      "fa-plane"
+    ]
+    distance = [
+      2
+      5
+      10
+    ]
+
+    ->
+      
+      # Increment the counter, but don't let it exceed the maximum index
+      i = ++i % states.length
+      $verb = $('span.verb')
+      $verb.removeAttr("class")
+      $verb.text states[i]
+      $verb.toggleClass("verb verb-#{states[i]}")
+
+      $("#toggleVerb i").removeAttr("class")
+      $("#toggleVerb i").toggleClass("fa #{icons[i]}")
+
+      channel.publish "map:setDistance", distance[i]
+
+  )()
+
+
+require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, postal, tagViewModel, foodViewModel, foodsViewModel)->
 
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
 
-  defaultLocation = 
+
+  currentLocation =
     distance: 10
     latitude: 33.215194
     longitude: -97.132788
 
+
   update = (location)->
+
+    _.defaults location, currentLocation
+
+    currentLocation = _.clone location
+
     $.getJSON "http://topdenton.krakatoa.io/foods.json?callback=?", location, (data, status)->
 
-      console.log "update", location, data
       foods = for food in data
         new foodViewModel(food)
 
@@ -193,24 +235,31 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
         marker.addTo(map)
 
 
-  update defaultLocation
+  update currentLocation
+
+  channel = postal.channel()
 
   channel.subscribe "map:center", (data)->
-    location =
-      distance: 3
-
+    location = {}
     location.latitude = data.lat if data.lat
     location.longitude = data.lng if data.lng
+    update location
 
-    update _.defaults location, defaultLocation
-
+  channel.subscribe "map:setDistance", (data)->
+    location = {}
+    location.distance = data if data
+    update location
 
 
   $(document).ready ()->
 
-    $("ul.tags").on 'click', 'a.toggle', (event)->
+    $("ul.tags").on 'click', 'a', (event)->
       event.preventDefault()
-      $(this).toggleClass 'toggled'
+
+
+      tagWasToggled = $(this).hasClass('toggled')
+      $(".toggled").toggleClass 'toggled'
+      $(this).toggleClass 'toggled' unless tagWasToggled
 
       tags = []
       $("ul.tags a.toggled").each (i, m)->
