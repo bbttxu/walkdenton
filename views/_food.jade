@@ -9,7 +9,10 @@ block append content
           h3 Tags
           ul.list-inline.tags(data-bind="foreach: tags")
             li
-              a.toggle.btn.btn-default.btn-sm(data-bind="text: name")
+              a.toggle.btn.btn-default.btn-sm
+                span.name(data-bind="text: name")
+                | &nbsp;
+                small(data-bind="text: number")
 
         .col-xs-5.col-xs-pull-7
           h1

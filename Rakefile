@@ -16,7 +16,7 @@ SSH_HOSTS = [
 desc "Build the website from source"
 task :build do
   puts "## Building website"
-  status = system("mimosa build -mpe")
+  status = system("mimosa build -m")
   puts status ? "OK" : "FAILED"
 end
 

@@ -17,9 +17,11 @@ define ["knockout", "underscore"], (ko, _)->
         for tag in food.tags()
           tags[tag] = tags[tag] + 1 || 1
 
-      _.map tags, (value, key)->
+      counted = _.map tags, (value, key)->
         name: key
         number: value
+
+      _.sortBy counted, (data)-> -data.number
 
     self.filterTags = ko.observableArray []
     self.filtered = ko.computed ()->

@@ -2,7 +2,7 @@ requirejs.config
 
   paths:
     jquery: "vendor/jquery/jquery"
-    foundation: 'vendor/foundation/foundation'
+    # foundation: 'vendor/foundation/foundation'
     leaflet: "vendor/leaflet/leaflet"
     'leaflet.awesome-markers': "vendor/leaflet.awesome-markers/leaflet.awesome-markers"
 
@@ -25,7 +25,9 @@ requirejs.config
     bootstrap: "vendor/bootstrap/bootstrap"
 
   shim:
-    'foundation':
+    # 'foundation':
+    #   deps: [ 'jquery' ]
+    'bootstrap':
       deps: [ 'jquery' ]
     'sammy':
       deps: [ 'jquery' ]
@@ -72,9 +74,9 @@ require ["jquery", "postal"], ($, postal)->
 
 
 
-require ["jquery", "foundation", "fastclick"], ($) ->
-  $(document).ready ()->
-    $(document).foundation()
+# require ["jquery", "foundation", "fastclick"], ($) ->
+#   $(document).ready ()->
+#     $(document).foundation()
 
 
 require ["leaflet", "postal"], (L, postal)->
@@ -287,7 +289,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
 
       tags = []
       $("ul.tags a." + cssClass).each (i, m)->
-        tags.push $(m).text()
+        tags.push $('.name', m).text()
 
 
       # grab existing markers, for our purposes, previous
