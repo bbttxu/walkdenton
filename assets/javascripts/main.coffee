@@ -237,7 +237,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
     currentLocation = _.clone location
 
 
-    $.getJSON "http://topdenton.com/foods.json?callback=?", location, (data, status)->
+    $.getJSON "http://www.topdenton.com/foods.json?callback=?", location, (data, status)->
 
       channel.publish 'foods', data
       currentData = data
