@@ -15,8 +15,7 @@ block append content
                 small(data-bind="text: number")
 
         .col-xs-5.col-xs-pull-7
-          h1
-            | Food
-            small(data-bind="text: filterTags().join('|')")
+          h1.name(data-bind="text: filterTags().length == 0 ? 'places' : filterTags().join('|')")
+            
           ul.list-unstyled.foods(data-bind="foreach: filtered")
             li(data-bind="text: name")
