@@ -22,6 +22,8 @@ requirejs.config
     # lscache: "vendor/pamelafox/lscache"
     # annyang: "vendor/talater/annyang"
 
+    bootstrap: "vendor/bootstrap/bootstrap"
+
   shim:
     'foundation':
       deps: [ 'jquery' ]
@@ -43,6 +45,7 @@ requirejs.config
       exports: 'L'
     'leaflet.awesome-markers':
       deps: [ "leaflet" ]
+
 
 
 
@@ -220,7 +223,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
   channel = postal.channel()
 
   currentLocation =
-    distance: 10
+    distance: 2
     latitude: 33.215194
     longitude: -97.132788
 
@@ -234,7 +237,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
     currentLocation = _.clone location
 
 
-    $.getJSON "http://topdenton.krakatoa.io/foods.json?callback=?", location, (data, status)->
+    $.getJSON "http://topdenton.com/foods.json?callback=?", location, (data, status)->
 
       channel.publish 'foods', data
       currentData = data
@@ -272,16 +275,18 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
 
   $(document).ready ()->
 
+    cssClass = 'btn-info'
+
     $("ul.tags").on 'click', 'a', (event)->
       event.preventDefault()
 
 
-      tagWasToggled = $(this).hasClass('toggled')
-      $(".toggled").toggleClass 'toggled'
-      $(this).toggleClass 'toggled' unless tagWasToggled
+      tagWasToggled = $(this).hasClass(cssClass)
+      $("." + cssClass).toggleClass cssClass
+      $(this).toggleClass cssClass unless tagWasToggled
 
       tags = []
-      $("ul.tags a.toggled").each (i, m)->
+      $("ul.tags a." + cssClass).each (i, m)->
         tags.push $(m).text()
 
 
@@ -366,6 +371,10 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
 
 
 #   $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
+
+
+require ["bootstrap"], (bootstrap)->
+  # it's loaded
 
 require ["routes", "moment"], (app, moment)->
   # app.run '#/shows'

@@ -3,7 +3,8 @@ html
   head
     title WalkDenton
     meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no")
-    link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
+    link(rel='stylesheet', href='/stylesheets/vendor/bootstrap/bootstrap.css' + cachebust)
+    //- link(rel='stylesheet', href='/stylesheets/vendor/foundation/foundation.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/font-awesome/css/font-awesome.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/leaflet/leaflet.css' + cachebust)
     link(rel='stylesheet', href='/stylesheets/vendor/leaflet.awesome-markers/leaflet.awesome-markers.css' + cachebust)
@@ -33,41 +34,34 @@ html
       script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
 
   body
-    .off-canvas-wrap
-      .inner-wrap
-    .contain-to-grid
-      nav.top-bar(data-topbar)
-        ul.title-area
-          li.name
-            h1
-              a(href="/") 
-                span.verb Walk
-                | Denton
-          li.toggle-topbar.menu-icon
-            a(href="#")
-              span Menu
 
-        section.top-bar-section
-          //- ul.left
-          //-   li.toggle
-          //-     a#toggleVerb( href='#')
-          //-       i.fa.fa-wheelchair
+    nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#walkDentonMenu')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
 
-          ul.right
-            //- li
-            //-   a( href="#/shows") Shows
+          a.navbar-brand(href='/')                 
+            span.verb Walk
+            | Denton
+
+        #walkDentonMenu.collapse.navbar-collapse
+          ul.nav.navbar-nav
+
+          ul.nav.navbar-nav.navbar-right
             li
               a( href="#/food") Food
-            //- li
-            //-   a( href="#/vision") Vision
-            //- li
-            //-   a( href="#/signin") Sign In
-            li#target
+
+            li
+              a#target( href="/" title="refresh") &nbsp;
 
     block content
 
     #footer
       .container
         .row
-          .small-12.columns
+          .col-xs-12
 
