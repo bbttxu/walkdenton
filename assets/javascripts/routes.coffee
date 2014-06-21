@@ -1,5 +1,5 @@
 # routes.coffee
-define [ 'jquery', "sammy", "moment", "sammy.json", "sammy.storage", "sammy.oauth2"], ($, Sammy, moment)->
+define [ 'jquery', "sammy", "moment" ], ($, Sammy, moment)->
   
 
 
@@ -9,11 +9,11 @@ define [ 'jquery', "sammy", "moment", "sammy.json", "sammy.storage", "sammy.oaut
 
     # use(Sammy.GoogleAnalytics)
 
-    self.use 'JSON'
-    self.use 'Session'
-    self.use 'Storage' 
-    self.use 'OAuth2' 
-    self.oauthorize = "/oauth/authorize"
+    # self.use 'JSON'
+    # self.use 'Session'
+    # self.use 'Storage' 
+    # self.use 'OAuth2' 
+    # self.oauthorize = "/oauth/authorize"
 
     # self.requireOAuth()
 
@@ -21,28 +21,28 @@ define [ 'jquery', "sammy", "moment", "sammy.json", "sammy.storage", "sammy.oaut
       $('.primary').not(selector).slideUp('fast')
       $(selector).slideDown('fast')
 
-    self.get "#/vision", ()->
-      showSection "#vision" 
+    # self.get "#/vision", ()->
+    #   showSection "#vision" 
 
     self.get "#/food", ()->
       showSection "#food"
 
-    self.get "#/shows/:date", ()->
-      date = this.params.date
+    # self.get "#/shows/:date", ()->
+    #   date = this.params.date
 
-      $("body").trigger 'dateChange', date
+    #   $("body").trigger 'dateChange', date
 
-      showSection "#shows"
+    #   showSection "#shows"
 
-    self.get "#/shows", ()->
-      date = this.params.date
+    # self.get "#/shows", ()->
+    #   date = this.params.date
 
-      $("body").trigger 'dateChange', date
-      showSection "#shows"
+    #   $("body").trigger 'dateChange', date
+    #   showSection "#shows"
 
-      # $("body").trigger 'dateChange',
+    #   # $("body").trigger 'dateChange',
 
-      showSection "#shows"
+    #   showSection "#shows"
 
     # self.get "#/", ()->
     #   showSection "#map"

@@ -7,9 +7,9 @@ requirejs.config
     'leaflet.awesome-markers': "vendor/leaflet.awesome-markers/leaflet.awesome-markers"
 
     sammy: "vendor/sammy/sammy"
-    'sammy.json': "vendor/sammy/sammy.json"
-    'sammy.storage': "vendor/sammy/sammy.storage"
-    'sammy.oauth2': "vendor/sammy/sammy.oauth2"
+    # 'sammy.json': "vendor/sammy/sammy.json"
+    # 'sammy.storage': "vendor/sammy/sammy.storage"
+    # 'sammy.oauth2': "vendor/sammy/sammy.oauth2"
 
     # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
@@ -19,6 +19,9 @@ requirejs.config
     spin: "vendor/spin/spin"
     postal: "vendor/postaljs/postal"
 
+    # lscache: "vendor/pamelafox/lscache"
+    # annyang: "vendor/talater/annyang"
+
   shim:
     'foundation':
       deps: [ 'jquery' ]
@@ -27,19 +30,21 @@ requirejs.config
       exports: "Sammy"
     # 'sammy-google-analytics':
     #   deps: [ 'sammy' ]
-    'sammy.json':
-      deps: [ 'sammy' ]
-    'sammy.storage':
-      deps: [ 'sammy' ]
+    # 'sammy.json':
+    #   deps: [ 'sammy' ]
+    # 'sammy.storage':
+    #   deps: [ 'sammy' ]
 
-    'sammy.oauth2':
-      deps: [ 'sammy' ]
+    # 'sammy.oauth2':
+    #   deps: [ 'sammy' ]
     underscore:
       exports: "_"
     leaflet:
       exports: 'L'
     'leaflet.awesome-markers':
       deps: [ "leaflet" ]
+
+
 
 require ["postal", "app/spinner"], (postal, spinner)->
   channel = postal.channel()
@@ -61,6 +66,7 @@ require ["jquery", "postal"], ($, postal)->
 
   $(document).ajaxStart ()-> channel.publish "animate", true
   $(document).ajaxStop ()-> channel.publish "animate", false
+
 
 
 require ["jquery", "foundation", "fastclick"], ($) ->
@@ -99,7 +105,7 @@ require ["leaflet", "postal"], (L, postal)->
   options =
     color: '#00f'
     
-  circle = L.circle([33.215194, -97.132788], 100, options ).addTo(map);
+  circle = L.circle([33.215194, -97.132788], 1000, options ).addTo(map);
 
   currentMarkers = {}
 
@@ -168,42 +174,42 @@ require ["leaflet", "postal"], (L, postal)->
   channel.subscribe "set.setDataset", setMarkers
 
 
-require ["postal"], (postal)->
-  channel = postal.channel()
+# require ["postal"], (postal)->
+#   channel = postal.channel()
 
-  document.getElementById("toggleVerb").onclick = (->
-    i = 0
-    states = [
-      "walk"
-      "bike"
-      "drive"
-    ]
-    icons = [
-      "fa-wheelchair"
-      "fa-plane"
-      "fa-plane"
-    ]
-    distance = [
-      2
-      5
-      10
-    ]
+#   document.getElementById("toggleVerb").onclick = (->
+#     i = 0
+#     states = [
+#       "walk"
+#       "bike"
+#       "drive"
+#     ]
+#     icons = [
+#       "fa-wheelchair"
+#       "fa-plane"
+#       "fa-plane"
+#     ]
+#     distance = [
+#       2
+#       5
+#       10
+#     ]
 
-    ->
+#     ->
       
-      # Increment the counter, but don't let it exceed the maximum index
-      i = ++i % states.length
-      $verb = $('span.verb')
-      $verb.removeAttr("class")
-      $verb.text states[i]
-      $verb.toggleClass("verb verb-#{states[i]}")
+#       # Increment the counter, but don't let it exceed the maximum index
+#       i = ++i % states.length
+#       $verb = $('span.verb')
+#       $verb.removeAttr("class")
+#       $verb.text states[i]
+#       $verb.toggleClass("verb verb-#{states[i]}")
 
-      $("#toggleVerb i").removeAttr("class")
-      $("#toggleVerb i").toggleClass("fa #{icons[i]}")
+#       $("#toggleVerb i").removeAttr("class")
+#       $("#toggleVerb i").toggleClass("fa #{icons[i]}")
 
-      channel.publish "map:setDistance", distance[i]
+#       channel.publish "map:setDistance", distance[i]
 
-  )()
+#   )()
 
 
 require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodViewModel", "foodsViewModel"], ($, ko, _, postal, tagViewModel, foodViewModel, foodsViewModel)->
@@ -211,6 +217,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
 
+  channel = postal.channel()
 
   currentLocation =
     distance: 10
@@ -218,26 +225,38 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
     longitude: -97.132788
 
 
+  currentData = []
+
   update = (location)->
 
     _.defaults location, currentLocation
 
     currentLocation = _.clone location
 
+
     $.getJSON "http://topdenton.krakatoa.io/foods.json?callback=?", location, (data, status)->
+
+      channel.publish 'foods', data
+      currentData = data
 
       foods = for food in data
         new foodViewModel(food)
 
-      foodsView.foods foods unless _.isEmpty foods
-
+      unless _.isEmpty foods
+        foodsView.foods foods 
+      
       for food in foodsView.markers
         marker.addTo(map)
 
 
-  update currentLocation
+  channel.subscribe "foods:get", (wut)-> 
+    channel.publish 'foods', currentData
+    
+  channel.publish 'foods:get'
 
-  channel = postal.channel()
+
+  # update currentLocation
+
 
   channel.subscribe "map:center", (data)->
     location = {}
@@ -280,82 +299,85 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
       # $('#map').trigger 'map:setDataset', food: foodsView.markers()
 
 
-require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
-  calendarView = new calendarViewModel()
+# require [ "jquery", "viewModels/calendarViewModel", "knockout" ], ($, calendarViewModel, ko)->
+#   calendarView = new calendarViewModel()
 
-  # ko.applyBindings calendarView, $("#showsCalendar")[0]
+#   # ko.applyBindings calendarView, $("#showsCalendar")[0]
 
-  grabCalendar = ()->
-    $.getJSON "http://denton1.krakatoa.io/shows/calendar.json?callback=?", (data, status)->
-      calendarView.calendar data
+#   grabCalendar = ()->
+#     $.getJSON "http://denton1.krakatoa.io/shows/calendar.json?callback=?", (data, status)->
+#       calendarView.calendar data
 
-  do refresh = ()->
-    grabCalendar()
-    setTimeout refresh, 5 * 60 * 1000
+#   do refresh = ()->
+#     grabCalendar()
+#     setTimeout refresh, 5 * 60 * 1000
 
-  # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
-  #   console.log asdf
+#   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
+#   #   console.log asdf
 
-require [ "postal", "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], (postal, $, showDate, showModel, gigModel, venueModel, ko)->
-  channel = postal.channel()
-
-
-  showDateView = new showDate 
-  ko.applyBindings showDateView, $('#showDate')[0]
-
-  grabShowsForDate = (event, date)->
-    # console.log 'grabShowsForDates'
-    showDateView.date(date)
-    showDateView.shows []
-
-    $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
-      # console.log 'grabShowsForDates callback'
-      artistByID = (artistID)->
-        for artist in data.artists
-          return artist.name if artist.id is artistID
-        "no artist found"
-
-      gigByID = (id)->
-        for gig in data.gigs
-          return gig if gig.id is id
-        "no gig found"
-
-      venueViewByID = (id)->
-        for venue in data.venues
-          return new venueModel venue if venue.id is id
-        "no venue found"
-
-      shows = for thisShow in data.shows
-        thisShow.gigs = for gig in thisShow.gigs
-          gig = gigByID gig
-          gig.artist = artistByID(gig.artists)
-          new gigModel gig
-
-        showView = new showModel thisShow 
-
-        showView.venue( venueViewByID( thisShow.venues ) )
-
-        showView
-
-      showDateView.shows shows
-
-      # console.log showDateView.venueMarkers()
-
-      # $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
-
-      channel.publish 'set.setDataset', venues: showDateView.venueMarkers()
+# require [ "postal", "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], (postal, $, showDate, showModel, gigModel, venueModel, ko)->
+#   channel = postal.channel()
 
 
-  $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
+#   showDateView = new showDate 
+#   ko.applyBindings showDateView, $('#showDate')[0]
+
+#   grabShowsForDate = (event, date)->
+#     # console.log 'grabShowsForDates'
+#     showDateView.date(date)
+#     showDateView.shows []
+
+#     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
+#       # console.log 'grabShowsForDates callback'
+#       artistByID = (artistID)->
+#         for artist in data.artists
+#           return artist.name if artist.id is artistID
+#         "no artist found"
+
+#       gigByID = (id)->
+#         for gig in data.gigs
+#           return gig if gig.id is id
+#         "no gig found"
+
+#       venueViewByID = (id)->
+#         for venue in data.venues
+#           return new venueModel venue if venue.id is id
+#         "no venue found"
+
+#       shows = for thisShow in data.shows
+#         thisShow.gigs = for gig in thisShow.gigs
+#           gig = gigByID gig
+#           gig.artist = artistByID(gig.artists)
+#           new gigModel gig
+
+#         showView = new showModel thisShow 
+
+#         showView.venue( venueViewByID( thisShow.venues ) )
+
+#         showView
+
+#       showDateView.shows shows
+
+#       # console.log showDateView.venueMarkers()
+
+#       # $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
+
+#       channel.publish 'set.setDataset', venues: showDateView.venueMarkers()
+
+
+#   $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
 
 require ["routes", "moment"], (app, moment)->
-  app.run '#/shows'
-  # app.run '#/food'
+  # app.run '#/shows'
+  app.run '#/food'
 
 
 
 
 
+# require ["app/voice"], () ->
+#   console.log 'voice'
+#   # everything done is in the file
 
 
 
