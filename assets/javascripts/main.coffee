@@ -112,6 +112,12 @@ require ["leaflet", "postal"], (L, postal)->
     
   circle = L.circle([33.215194, -97.132788], 1000, options ).addTo(map);
 
+  options = 
+    color: '#9f9'
+
+  bigCircle = L.circle([33.215194, -97.132788], 2000, options ).addTo(map);
+
+
   currentMarkers = {}
 
   currentMarkerBounds = ()->
@@ -127,6 +133,9 @@ require ["leaflet", "postal"], (L, postal)->
 
     circle.setLatLng e.latlng
     circle.setRadius radius
+
+    bigCircle.setLatLng e.latlng
+
 
     bounds = currentMarkerBounds()
     bounds.push e.latlng
