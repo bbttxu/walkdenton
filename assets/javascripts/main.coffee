@@ -262,6 +262,7 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
       for food in foodsView.markers
         marker.addTo(map)
 
+      $('#phoneTagSelect').prop 'disabled', false
 
   channel.subscribe "foods:get", (wut)-> 
     channel.publish 'foods', currentData
@@ -287,6 +288,14 @@ require ["jquery", "knockout", "underscore", "postal", "tagViewModel", "foodView
   $(document).ready ()->
 
     cssClass = 'btn-info'
+
+
+
+    $('#phoneTagSelect').on 'change', (event)->
+      console.log this.value
+
+      foodsView.filterTags [ this.value ]
+      channel.publish "set.setDataset", food: foodsView.markers()
 
     $("ul.tags").on 'click', 'a', (event)->
       event.preventDefault()

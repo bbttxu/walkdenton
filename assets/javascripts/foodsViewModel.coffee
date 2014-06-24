@@ -45,4 +45,18 @@ define ["knockout", "underscore"], (ko, _)->
       _.map foods, (food)->
         food.marker()
 
+    self.showNearby = ko.computed ()->
+      foods = self.filtered()
+      return false if foods.length is 0
+      true
+
+    self.nearby = ko.computed ()->
+      tags = self.filterTags()
+      foods = self.filtered()
+      number = foods.length
+      tagged = tags.join(', ') || 'nearby'
+      return "There is #{number} place tagged '#{tagged}'" if number is 1
+      return "There are #{number} places tagged '#{tagged}'" if number > 1
+      "No results :/"
+
     self
