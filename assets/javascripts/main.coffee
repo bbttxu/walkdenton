@@ -107,15 +107,20 @@ require ["leaflet", "postal"], (L, postal)->
 
   map.locate locateOptions
 
+  options = 
+    color: '#9f9'
+
+  bigCircle = L.circle([33.215194, -97.132788], 2000, options ).addTo(map);
+
   options =
     color: '#00f'
     
   circle = L.circle([33.215194, -97.132788], 1000, options ).addTo(map);
 
-  options = 
-    color: '#9f9'
+  options =
+    color: '#f00'
 
-  bigCircle = L.circle([33.215194, -97.132788], 2000, options ).addTo(map);
+  smallCircle = L.circle([33.215194, -97.132788], 100, options ).addTo(map);
 
 
   currentMarkers = {}
@@ -136,6 +141,7 @@ require ["leaflet", "postal"], (L, postal)->
 
     bigCircle.setLatLng e.latlng
 
+    smallCircle.setLatLng e.latlng
 
     bounds = currentMarkerBounds()
     bounds.push e.latlng
