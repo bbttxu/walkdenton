@@ -51,27 +51,42 @@ requirejs.config
 
 
 
-require ["postal", "app/spinner"], (postal, spinner)->
-  channel = postal.channel()
+# require ["postal", "app/spinner"], (postal, spinner)->
+#   channel = postal.channel()
 
-  target = document.getElementById "target"  
-  spinner.spin(target)
+#   target = document.getElementById "target"  
+#   spinner.spin(target)
 
-  channel.subscribe 'animate', (shouldAnimate)->    
-    spinner.spin() if shouldAnimate
-    spinner.stop() unless shouldAnimate
-
-# require ["jquery", "foundation"], ($, foundation)->
-#   $(document).ready ()->
-#     $(document).foundation()
+#   channel.subscribe 'animate', (shouldAnimate)->    
+#     spinner.spin() if shouldAnimate
+#     spinner.stop() unless shouldAnimate
 
 
-require ["jquery", "postal"], ($, postal)->
-  channel = postal.channel()
+# require ["jquery", "postal"], ($, postal)->
+#   channel = postal.channel()
 
-  $(document).ajaxStart ()-> channel.publish "animate", true
-  $(document).ajaxStop ()-> channel.publish "animate", false
+#   $(document).ajaxStart ()-> channel.publish "animate", true
+#   $(document).ajaxStop ()-> channel.publish "animate", false
 
+
+
+
+
+require ["bootstrap"], (bootstrap)->
+  # it's loaded
+
+require [ "app/maps" ], (maps)->
+  # map loaded
+
+require ["app/foods"], (foods)->
+  # load it
+
+# require ["app/shows"], (shows)->
+#   # load it
+
+require ["routes", "moment"], (app, moment)->
+  # app.run '#/shows'
+  app.run '#/food'
 
 
 # require ["jquery", "foundation", "fastclick"], ($) ->
@@ -136,72 +151,6 @@ require ["jquery", "postal"], ($, postal)->
 
 #   # $('#shows ul').on 'click', 'li.calendar',  (asdf)->
 #   #   console.log asdf
-
-# require [ "postal", "jquery", "viewModels/showDate", "viewModels/show", "viewModels/gig", "viewModels/venue", "knockout" ], (postal, $, showDate, showModel, gigModel, venueModel, ko)->
-#   channel = postal.channel()
-
-
-#   showDateView = new showDate 
-#   ko.applyBindings showDateView, $('#showDate')[0]
-
-#   grabShowsForDate = (event, date)->
-#     # console.log 'grabShowsForDates'
-#     showDateView.date(date)
-#     showDateView.shows []
-
-#     $.getJSON "http://denton1.krakatoa.io/shows/" + date + ".json?callback=?", (data, status)->
-#       # console.log 'grabShowsForDates callback'
-#       artistByID = (artistID)->
-#         for artist in data.artists
-#           return artist.name if artist.id is artistID
-#         "no artist found"
-
-#       gigByID = (id)->
-#         for gig in data.gigs
-#           return gig if gig.id is id
-#         "no gig found"
-
-#       venueViewByID = (id)->
-#         for venue in data.venues
-#           return new venueModel venue if venue.id is id
-#         "no venue found"
-
-#       shows = for thisShow in data.shows
-#         thisShow.gigs = for gig in thisShow.gigs
-#           gig = gigByID gig
-#           gig.artist = artistByID(gig.artists)
-#           new gigModel gig
-
-#         showView = new showModel thisShow 
-
-#         showView.venue( venueViewByID( thisShow.venues ) )
-
-#         showView
-
-#       showDateView.shows shows
-
-#       # console.log showDateView.venueMarkers()
-
-#       # $('#map').trigger 'map:setDataset', venues: showDateView.venueMarkers()
-
-#       channel.publish 'set.setDataset', venues: showDateView.venueMarkers()
-
-
-#   $(document).on('dateChange', 'body', grabShowsForDate).trigger('dateChange', new Date())
-
-
-require ["bootstrap"], (bootstrap)->
-  # it's loaded
-
-require [ "app/maps" ], (maps)->
-  # map loaded
-
-require ["app/foods"], (foods)->
-  # load it
-
-require ["routes", "moment"], (app, moment)->
-  # app.run '#/shows'
-  app.run '#/food'
 
 
 
