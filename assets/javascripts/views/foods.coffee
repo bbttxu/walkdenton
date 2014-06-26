@@ -1,14 +1,11 @@
 # foodsViewModel.coffee
-
-
 define ["knockout", "underscore"], (ko, _)->
   foodsViewModel = (foods)->
     self = this
 
-
     self.foods = ko.observable foods
-    self.tags = ko.computed ()->
 
+    self.tags = ko.computed ()->
       all_this_food = self.foods()
 
       tags = {}
@@ -24,6 +21,7 @@ define ["knockout", "underscore"], (ko, _)->
       _.sortBy counted, (data)-> -data.number
 
     self.filterTags = ko.observableArray []
+
     self.filtered = ko.computed ()->
       foods = self.foods()
       tags = self.filterTags()
@@ -45,7 +43,7 @@ define ["knockout", "underscore"], (ko, _)->
       _.map foods, (food)->
         food.marker()
 
-    self.showNearby = ko.computed ()->
+    self.canShowNearby = ko.computed ()->
       self.filtered().length > 0
 
     self.nearby = ko.computed ()->

@@ -25,6 +25,6 @@ block append content
 
         .col-xs-12.col-sm-5.col-sm-pull-7.places
           h1.name.hidden-xs(data-bind="text: filterTags().length == 0 ? 'places' : filterTags().join('|')")
-          p.bg-info.nearby(data-bind="text: nearby, visible: showNearby")
+          p.bg-info.nearby(data-bind="text: nearby, visible: canShowNearby")
           ul.list-unstyled.foods(data-bind="foreach: filtered")
             li(data-bind="text: name")

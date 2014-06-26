@@ -1,6 +1,6 @@
 # foods.coffee
 
-define ["jquery", "knockout", "underscore", "postal", "views/tag", "views/food", "views/foods"], ($, ko, _, postal, tagViewModel, foodViewModel, foodsViewModel)->
+define ["jquery", "knockout", "underscore", "postal", "app/defaults", "views/tag", "views/food", "views/foods"], ($, ko, _, postal, defaults, tagViewModel, foodViewModel, foodsViewModel)->
 
   foodsView = new foodsViewModel []
   ko.applyBindings foodsView, $('#food')[0]
@@ -9,8 +9,8 @@ define ["jquery", "knockout", "underscore", "postal", "views/tag", "views/food",
 
   currentLocation =
     distance: 2
-    latitude: 33.215194
-    longitude: -97.132788
+    latitude: defaults.latitude
+    longitude: defaults.longitude
 
   currentData = []
 
