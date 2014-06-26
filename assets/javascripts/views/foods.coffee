@@ -46,9 +46,7 @@ define ["knockout", "underscore"], (ko, _)->
         food.marker()
 
     self.showNearby = ko.computed ()->
-      foods = self.filtered()
-      return false if foods.length is 0
-      true
+      self.filtered().length > 0
 
     self.nearby = ko.computed ()->
       tags = self.filterTags()
