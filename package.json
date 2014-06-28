@@ -9,7 +9,7 @@
     ],
     "private": true,
     "scripts": {
-        "test": "grunt travis"
+        "test": "./test.sh ci"
     },
     "dependencies": {
         "express": "3.4.7",
@@ -19,9 +19,7 @@
     },
     "devDependencies": {
         "grunt": "~0.4.4",
-        "grunt-bump": "0.0.13",
-        "grunt-contrib-jasmine": "*",
-        "grunt-template-jasmine-istanbul": "*"
+        "grunt-bump": "0.0.13"
     },
     "main": "index.js",
     "repository": {

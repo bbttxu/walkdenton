@@ -32,7 +32,38 @@ module.exports = (grunt)->
   # grunt.loadNpmTasks('grunt-contrib-jasmine')
   # grunt.loadNpmTasks('grunt-template-jasmine-istanbul')
 
-  grunt.registerTask 'travis', []
+module.exports = (grunt) ->
+  grunt.initConfig mocha_istanbul:
+    coverage:
+      src: "public/javascripts/" # the folder, not the files,
+      options:
+        mask: "**/*.js"
+
+    coveralls:
+      src: "test" # the folder, not the files
+      options:
+        coverage: true
+        check:
+          lines: 75
+          statements: 75
+
+        root: "./lib" # define where the cover task should consider the root of libraries that are covered by tests
+        reportFormats: [
+          "cobertura"
+          "lcovonly"
+        ]
+
+  grunt.event.on "coverage", (lcovFileContents, done) ->
+    console.log lcovFileContents
+    # Check below
+    done()
+    return
+
+  grunt.loadNpmTasks "grunt-mocha-istanbul"
+  grunt.registerTask "coveralls", ["mocha_istanbul:coveralls"]
+  grunt.registerTask "coverage", ["mocha_istanbul:coverage"]
+
+  grunt.registerTask 'travis', ["mocha_istanbul"]
 
   grunt.registerTask 'default', [ 'bump' ]
 
