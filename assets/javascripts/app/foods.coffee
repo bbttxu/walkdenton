@@ -30,16 +30,16 @@ define ["jquery", "knockout", "underscore", "postal", "app/defaults", "views/tag
         new foodViewModel(food)
 
       unless _.isEmpty foods
-        foodsView.foods foods 
-      
+        foodsView.foods foods
+
       for food in foodsView.markers
         marker.addTo(map)
 
       $('#phoneTagSelect').prop 'disabled', false
 
-  channel.subscribe "foods:get", (wut)-> 
+  channel.subscribe "foods:get", (wut)->
     channel.publish 'foods', currentData
-    
+
   channel.publish 'foods:get'
 
 
