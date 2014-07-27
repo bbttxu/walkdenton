@@ -18,9 +18,11 @@
     "jade": "0.35.0"
   },
   "devDependencies": {
+    "coveralls": "^2.11.0",
     "grunt": "~0.4.4",
     "grunt-bump": "0.0.13",
-    "grunt-jasmine-coverage": "^0.1.0"
+    "grunt-jasmine-coverage": "^0.1.0",
+    "istanbul": "^0.2.16"
   },
   "main": "index.js",
   "repository": {
