@@ -8,7 +8,7 @@
 
 exports.config = {
 
-  # minMimosaVersion:null      # The minimum Mimosa version that must be installed to use the project.
+  minMimosaVersion: "2.1.0"      # The minimum Mimosa version that must be installed to use the project.
   # requiredMimosaVersion:null # The Mimosa version that must be installed to use the project.
 
   ###
@@ -16,7 +16,30 @@ exports.config = {
   and do not need to be installed. If a module is listed here that Mimosa is unaware of, Mimosa
   will attempt to install it.
   ###
-  modules: ['jshint', 'csslint', 'server', 'bower', 'jade', 'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile', 'copy', 'testem-require' ] # 
+  modules: ['jshint', 'csslint', 'server', 'bower', 'jade', 'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile', 'copy', 'testem-require', 'sass' ] #
+
+  logger:
+    info:
+      enabled: true
+      color: null
+    warn:
+      enabled: true
+      color: 'yellow+bold'
+    success:
+      enabled: true
+      color: 'green'
+    error:
+      enabled: true
+      color: 'red+bold'
+    debug:
+      color: 'blue'
+    embeddedText:
+      enabled: true
+      color: 'cyan'
+    growl:
+      enabled: true
+      onStartup: false
+      onSuccess: true
 
   # watch:
     # sourceDir: "assets"                # directory location of web assets, can be relative to
@@ -377,5 +400,7 @@ exports.config = {
                                   # ['js', 'lib'] the output path would have "lib" and "js"
                                   # stripped. Feel free to suggest additions to this based on
                                   # your experience!
+
+
 
 }
