@@ -1,5 +1,12 @@
 # foods.coffee
 
+define ["jquery", "postal", "templates", "models/food"], ($, postal, templates, Food)->
+  channel = postal.channel()
+
+  channel.subscribe "foods:get", (wut)->
+    console.log wut
+
+
 define ["jquery", "knockout", "underscore", "postal", "app/defaults", "views/tag", "views/food", "views/foods"], ($, ko, _, postal, defaults, tagViewModel, foodViewModel, foodsViewModel)->
 
   foodsView = new foodsViewModel []
