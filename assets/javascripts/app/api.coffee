@@ -12,6 +12,7 @@ define ["lscache", "postal", "jquery", "underscore", "app/defaults"], (cache, po
 
 	update = (location = currentLocation)->
 
+		# FIXME add location info to cache key
 		mostRecent = _.compact [cache.get "foods-recent", cache.get "foods-current"]
 
 		if mostRecent.length >= 1
