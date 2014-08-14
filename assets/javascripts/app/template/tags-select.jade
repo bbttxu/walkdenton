@@ -1,0 +1,6 @@
+//- tags-select.jade
+
+select
+	option= "choose from " + tags().length + " nearby"
+	each this_tag in tags()
+		option= this_tag.tag + "—" + this_tag.count

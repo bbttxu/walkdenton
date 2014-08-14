@@ -1,0 +1,9 @@
+//- tags-list.jade
+
+ul.list-inline.tags.hidden-xs
+	each this_tag in tags()
+		li
+			a.toggle.btn.btn-default.btn-sm
+				span.name= this_tag.tag
+				| &nbsp;
+				small= this_tag.count
