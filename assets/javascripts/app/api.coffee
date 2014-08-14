@@ -29,3 +29,4 @@ define ["lscache", "postal", "jquery", "underscore", "app/defaults"], (cache, po
 				cache.set "foods-recent", payload, defaults.cache.recent
 
 	postal.subscribe "foods:update", update
+	postal.subscribe "map:update", update

@@ -20,7 +20,7 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
   ).addTo map
 
 
-  locateOptions = 
+  locateOptions =
     setView: false
     maxZoom: 17
     watch: true
@@ -30,14 +30,14 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
 
   map.locate locateOptions
 
-  options = 
+  options =
     color: '#9f9'
 
   bigCircle = L.circle( coordinates, 2000, options ).addTo(map);
 
   options =
     color: '#00f'
-    
+
   circle = L.circle( coordinates, 1000, options ).addTo(map);
 
   options =

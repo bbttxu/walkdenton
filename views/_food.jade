@@ -10,21 +10,18 @@ block append content
 
             .col-xs-12.visible-xs
               form(role="form")
-                select#phoneTagSelect.form-control.input-block-level(disabled="disabled" data-bind="options: tags, optionsText: function(item) {return item.name;}, optionsValue: function(item) {return item.name;}, optionsCaption: 'What interests you?', css: 'option'")
+                select#phoneTagSelect.form-control.input-block-level
 
             .col-sm-12.hidden-xs
-              h3 
+              h3
                 | Tags
                 small What interests you?
-              ul.list-inline.tags.hidden-xs(data-bind="foreach: tags")
-                li
-                  a.toggle.btn.btn-default.btn-sm
-                    span.name(data-bind="text: name")
-                    | &nbsp;
-                    small(data-bind="text: number")
+              ul#tagsList.list-inline.tags.hidden-xs
+                //- li
+                //-   a.toggle.btn.btn-default.btn-sm
+                //-     span.name(data-bind="text: name")
+                //-     | &nbsp;
+                //-     small(data-bind="text: number")
 
-        .col-xs-12.col-sm-5.col-sm-pull-7.places
-          h1.name.hidden-xs(data-bind="text: filterTags().length == 0 ? 'places' : filterTags().join('|')")
-          p.bg-info.nearby(data-bind="text: nearby, visible: canShowNearby")
-          ul.list-unstyled.foods(data-bind="foreach: filtered")
-            li(data-bind="text: name")
+        #places.col-xs-12.col-sm-5.col-sm-pull-7.places
+          h3 Select A Tag

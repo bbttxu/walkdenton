@@ -10,6 +10,7 @@ requirejs.config
     # 'sammy.json': "vendor/sammy/sammy.json"
     # 'sammy.storage': "vendor/sammy/sammy.storage"
     # 'sammy.oauth2': "vendor/sammy/sammy.oauth2"
+    lscache: 'vendor/lscache/lscache'
 
     # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
     knockout: "vendor/knockout/knockout"
@@ -54,10 +55,10 @@ requirejs.config
 # require ["postal", "app/spinner"], (postal, spinner)->
 #   channel = postal.channel()
 
-#   target = document.getElementById "target"  
+#   target = document.getElementById "target"
 #   spinner.spin(target)
 
-#   channel.subscribe 'animate', (shouldAnimate)->    
+#   channel.subscribe 'animate', (shouldAnimate)->
 #     spinner.spin() if shouldAnimate
 #     spinner.stop() unless shouldAnimate
 
@@ -79,6 +80,7 @@ require [ "app/maps" ], (maps)->
   # map loaded
 
 require ["app/foods"], (foods)->
+  # console.log foods
   # load it
 
 # require ["app/shows"], (shows)->
@@ -118,7 +120,7 @@ require ["routes", "moment"], (app, moment)->
 #     ]
 
 #     ->
-      
+
 #       # Increment the counter, but don't let it exceed the maximum index
 #       i = ++i % states.length
 #       $verb = $('span.verb')

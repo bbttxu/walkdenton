@@ -1,0 +1,7 @@
+//- places-listing.jade
+
+h1.name.hidden-xs= filter
+p.nearby.bg-info!= nearby()
+ul.list-unstyled.foods
+	each food in filterByTag()
+		li= food.name
