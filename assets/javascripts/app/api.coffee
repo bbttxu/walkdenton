@@ -1,24 +1,21 @@
 # api.coffee
 
 define ["lscache", "postal", "jquery", "underscore", "app/defaults"], (cache, postal, $, _, defaults)->
-	console.log "api"
 
 	postal = postal.channel()
 
-	currentLocation =
-		distance: 2
-		latitude: defaults.latitude
-		longitude: defaults.longitude
 
-	update = (location = currentLocation)->
+	update = (location)->
+		location = _.extend defaults.location, location
 
-		# FIXME add location info to cache key
-		mostRecent = _.compact [cache.get "foods-recent", cache.get "foods-current"]
+		cacheKey = ["foods", location.latitude.toFixed(3), location.longitude.toFixed(3)].join("-")
 
-		if mostRecent.length >= 1
-			postal.publish "foods:updated", mostRecent[0]
+		cached = cache.get cacheKey
 
-		unless mostRecent.length = 2
+		if cached
+			postal.publish "foods:updated", cached
+
+		unless cached
 			$.getJSON "http://www.topdenton.com/foods.json?callback=?", location, (data, status)->
 				payload =
 					data: data,
@@ -26,8 +23,13 @@ define ["lscache", "postal", "jquery", "underscore", "app/defaults"], (cache, po
 
 				postal.publish "foods:updated", payload
 
-				cache.set "foods-current", payload, defaults.cache.current
-				cache.set "foods-recent", payload, defaults.cache.recent
+				cache.set cacheKey, payload, defaults.cache.current
 
 	postal.subscribe "foods:update", update
-	postal.subscribe "map:update", update
+
+	postal.subscribe "map:center", (data)->
+		location =
+			latitude: data.lat
+			longitude: data.lng
+
+		update _.extend defaults.location, location

@@ -1,11 +1,11 @@
-# gig.coffee
+# # gig.coffee
 
-define ["knockout", "underscore", "moment"], (ko, _, moment)->
-	gig = (attributes)->
-		self = this
+# define ["knockout", "underscore", "moment"], (ko, _, moment)->
+# 	gig = (attributes)->
+# 		self = this
 
-		self.artist = ko.observable attributes.artist
+# 		self.artist = ko.observable attributes.artist
 
-		self.position = ko.observable attributes.position
+# 		self.position = ko.observable attributes.position
 
-		self
+# 		self

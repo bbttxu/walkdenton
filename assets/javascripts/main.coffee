@@ -13,7 +13,7 @@ requirejs.config
     lscache: 'vendor/lscache/lscache'
 
     # 'sammy-google-analytics': "vendor/sammy/sammy-google-analytics"
-    knockout: "vendor/knockout/knockout"
+    # knockout: "vendor/knockout/knockout"
     underscore: "vendor/underscore/underscore"
     moment: "vendor/moment/moment"
     fastclick: "vendor/fastclick/fastclick"
@@ -76,12 +76,13 @@ requirejs.config
 require ["bootstrap"], (bootstrap)->
   # it's loaded
 
-require [ "app/maps" ], (maps)->
-  # map loaded
 
 require ["app/foods"], (foods)->
   # console.log foods
   # load it
+
+require [ "app/maps" ], (maps)->
+  # map loaded
 
 # require ["app/shows"], (shows)->
 #   # load it

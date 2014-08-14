@@ -6,9 +6,9 @@ define ["jquery", "postal", "templates", "models/food", "models/places", "app/ap
 
   places = new Places()
 
-  channel.subscribe "foods:updated", (wut)->
+  channel.subscribe "foods:updated", (payload)->
 
-    foods = _.map wut, (food)->
+    foods = _.map payload.data, (food)->
       new Food food.name, food.tags_array, [food.coordinates[0], food.coordinates[1]]
 
     places.foods = foods

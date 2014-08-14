@@ -11,7 +11,7 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
     boxZoom: false
     zoomControl: false
 
-  coordinates = [ defaults.latitude, defaults.longitude ]
+  coordinates = [ defaults.location.latitude, defaults.location.longitude ]
   map = L.map('map', options).setView( coordinates, 14 )
 
   L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
