@@ -16,7 +16,7 @@ define ["lscache", "postal", "jquery", "underscore", "app/defaults"], (cache, po
 			postal.publish "foods:updated", cached
 
 		unless cached
-			$.getJSON "http://www.topdenton.com/foods.json?callback=?", location, (data, status)->
+			$.getJSON "http://192.241.185.162/foods.json?callback=?", location, (data, status)->
 				payload =
 					data: data,
 					updatedAt: Date.now()
