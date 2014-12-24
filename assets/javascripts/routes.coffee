@@ -1,6 +1,6 @@
 # routes.coffee
 define [ 'jquery', "sammy", "moment" ], ($, Sammy, moment)->
-  
+
 
 
   routes = Sammy 'body', ()->
@@ -11,8 +11,8 @@ define [ 'jquery', "sammy", "moment" ], ($, Sammy, moment)->
 
     # self.use 'JSON'
     # self.use 'Session'
-    # self.use 'Storage' 
-    # self.use 'OAuth2' 
+    # self.use 'Storage'
+    # self.use 'OAuth2'
     # self.oauthorize = "/oauth/authorize"
 
     # self.requireOAuth()
@@ -22,27 +22,27 @@ define [ 'jquery', "sammy", "moment" ], ($, Sammy, moment)->
       $(selector).slideDown('fast')
 
     # self.get "#/vision", ()->
-    #   showSection "#vision" 
+    #   showSection "#vision"
 
     self.get "#/food", ()->
       showSection "#food"
 
-    # self.get "#/shows/:date", ()->
-    #   date = this.params.date
+    self.get "#/shows/:date", ()->
+      date = this.params.date
 
-    #   $("body").trigger 'dateChange', date
+      $("body").trigger 'dateChange', date
 
-    #   showSection "#shows"
+      showSection "#shows"
 
-    # self.get "#/shows", ()->
-    #   date = this.params.date
+    self.get "#/shows", ()->
+      date = this.params.date
 
-    #   $("body").trigger 'dateChange', date
-    #   showSection "#shows"
+      $("body").trigger 'dateChange', date
+      showSection "#shows"
 
-    #   # $("body").trigger 'dateChange',
+      # $("body").trigger 'dateChange',
 
-    #   showSection "#shows"
+      showSection "#shows"
 
     # self.get "#/", ()->
     #   showSection "#map"

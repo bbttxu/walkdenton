@@ -1,33 +1,33 @@
 {
-    "name": "walkdenton",
-    "version": "0.0.15",
-    "homepage": "https://github.com/bbttxu/walkdenton",
-    "author": "",
-    "description": "[walkdenton.org](http://walkdenton.org/)",
-    "contributors": [
-        ""
-    ],
-    "private": true,
-    "scripts": {
-        "test": "./test.sh ci"
-    },
-    "dependencies": {
-        "express": "3.4.7",
-        "coffee-script": "1.6.3",
-        "consolidate": "0.10.0",
-        "jade": "0.35.0"
-    },
-    "devDependencies": {
-        "grunt": "~0.4.4",
-        "grunt-bump": "0.0.13"
-    },
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/bbttxu/walkdenton.git"
-    },
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/bbttxu/walkdenton/issues"
-    }
+  "name": "walkdenton",
+  "version": "0.0.16",
+  "homepage": "https://github.com/bbttxu/walkdenton",
+  "author": "",
+  "description": "[walkdenton.org](http://walkdenton.org/)",
+  "contributors": [
+    ""
+  ],
+  "private": true,
+  "scripts": {
+    "test": "./test.sh ci"
+  },
+  "dependencies": {
+    "express": "3.4.7",
+    "coffee-script": "1.6.3",
+    "consolidate": "0.10.0",
+    "jade": "0.35.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-bump": "0.0.13"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bbttxu/walkdenton.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bbttxu/walkdenton/issues"
+  }
 }
