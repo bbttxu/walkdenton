@@ -21,6 +21,9 @@ define ["jquery", "postal", "templates", "models/food", "models/places", "app/ap
     # console.log places.filterByTag()
     displaySelectedPlaces()
 
+    channel.publish "foods:map", places.filterByTag()
+
+
   displaySelectedPlaces = ()->
     $('#places').html templates['places-listing'] places
 

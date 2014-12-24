@@ -45,7 +45,6 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
 
   smallCircle = L.circle( coordinates, 100, options ).addTo(map);
 
-
   currentMarkers = {}
 
   currentMarkerBounds = ()->
@@ -53,6 +52,9 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
       for marker in markers
         marker.getLatLng() if marker isnt undefined
     # bounds = L.latLngBounds latLngs
+
+
+
 
   onLocationFound = (e) ->
 
@@ -80,38 +82,71 @@ define ["leaflet", "postal", "app/defaults"], (L, postal, defaults)->
 
   map.on "locationerror", onLocationError
 
-  clearMarkers = (data)->
-    currentMarkers = {}
+  # clearMarkers = (data)->
+  #   currentMarkers = {}
 
-  setMarkers = (data)->
-    possiblyRemove = _.difference _.keys(currentMarkers), _.keys(data)
-    possiblyUpdate = _.difference _.keys(data), _.keys(currentMarkers)
+  # setMarkers = (data)->
 
-    latLngs = []
+  #   # console.log 'data', data
 
-    # simply add new markers
-    for key in _.keys data
+  #   possiblyRemove = _.difference _.keys(currentMarkers), _.keys(data)
+  #   possiblyUpdate = _.difference _.keys(data), _.keys(currentMarkers)
 
-      current = currentMarkers[key]
-      updated = data[key]
+  #   latLngs = []
 
-      for marker in _.difference(current, updated)
-        map.removeLayer marker
+  #   # simply add new markerscu
+  #   for key in _.keys data
 
-      for marker in _.difference(updated, current)
-        marker.addTo map
+  #     current = currentMarkers[key]
+  #     updated = data[key]
 
-    currentMarkers = data
+  #     for marker in _.difference(current, updated)
+  #       map.removeLayer marker
 
-    circle.setRadius 1000
+  #     for marker in _.difference(updated, current)
+  #       marker.addTo map
 
-    latLngs.push circle.getLatLng()
+  #   currentMarkers = data
+
+  #   circle.setRadius 1000
+
+  #   latLngs.push circle.getLatLng()
 
 
-    bounds = currentMarkerBounds()
-    bounds.push circle.getLatLng()
+  #   bounds = currentMarkerBounds()
+  #   bounds.push circle.getLatLng()
 
-    map.fitBounds L.latLngBounds bounds
+  #   map.fitBounds L.latLngBounds bounds
 
-  channel.subscribe "clear", clearMarkers
-  channel.subscribe "set.setDataset", setMarkers
+
+  findBounds = (markerArray)->
+    # markers.push smallCircle.getLatLng()
+    L.latLngBounds markerArray.concat smallCircle.getLatLng()
+
+  mapFoods = (data)->
+    data.push smallCircle.center()
+    L.latLngBounds data
+
+  # channel.subscribe "clear", clearMarkers
+  # channel.subscribe "set.setDataset", setMarkers
+
+
+  channel.subscribe "foods:map", (data)->
+
+    bounds = findBounds _.collect data, (food)->
+      food.marker().getLatLng()
+
+    latestMarkers = _.collect data, (datum)->
+      datum.marker()
+
+    _.each _.difference(latestMarkers, currentMarkers), (marker)->
+      marker.addTo map
+
+    _.each _.difference(currentMarkers, latestMarkers), (marker)->
+      map.removeLayer marker
+
+    currentMarkers = latestMarkers
+
+    map.fitBounds bounds
+
+
