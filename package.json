@@ -9,7 +9,8 @@
   ],
   "private": true,
   "scripts": {
-    "test": "./test.sh ci"
+    "test": "./test.sh ci",
+    "start": "mimosa watch -sc"
   },
   "dependencies": {
     "express": "3.4.7",
