@@ -77,19 +77,22 @@ require ["bootstrap"], (bootstrap)->
   # it's loaded
 
 
-require ["app/foods"], (foods)->
+# require ["app/foods"], (foods)->
   # console.log foods
   # load it
 
-require [ "app/maps" ], (maps)->
+# require [ "app/maps" ], (maps)->
+  # map loaded
+
+require [ "app/assessment" ], (assessment)->
   # map loaded
 
 # require ["app/shows"], (shows)->
 #   # load it
 
-require ["routes", "moment"], (app, moment)->
-  # app.run '#/shows'
-  app.run '#/food'
+# require ["routes", "moment"], (app, moment)->
+#   # app.run '#/shows'
+#   app.run '#/food'
 
 
 # require ["jquery", "foundation", "fastclick"], ($) ->
