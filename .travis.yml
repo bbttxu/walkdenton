@@ -2,12 +2,15 @@
 
 language: node_js
 node_js:
-  - "0.11"
-  - "0.10"
+  - "0.12"
 
 before_install: npm install -g grunt-cli mimosa testem
 install: npm install
 before_script: mimosa build
+
+cache:
+  directories:
+  - node_modules
 
 
 deploy:
