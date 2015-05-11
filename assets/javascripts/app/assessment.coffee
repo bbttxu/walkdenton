@@ -76,16 +76,15 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (
 		sorted = _.sortBy found, (intersection)->
 			map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x
 
-		ten = _.take sorted, 10
+		ten = _.take sorted, 5
 
 		markers = _.map ten, (one)->
-			new Intersection one
+			new Intersection(one).marker()
 
 		_.each _.difference(markers, current), (marker)->
+			marker.addTo map
 
-			marker.marker().addTo map
-
-		_.each _.difference(markers, current), (marker)->
+		_.each _.difference(current, markers), (marker)->
 			map.removeLayer marker
 
 		current = markers

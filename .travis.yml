@@ -8,3 +8,17 @@ node_js:
 before_install: npm install -g grunt-cli mimosa testem
 install: npm install
 before_script: mimosa build
+
+
+deploy:
+  provider: s3
+  access_key_id: AKIAISNT2O26XTKJ4YBA
+  secret_access_key:
+    secure: UcLkRe+hCFPiVt7NCBoUIGpww+6Suis6OrLwTEc5yBs1ato4fj38WsT+gAPcLlxOZebOmnMviTwBBpeXcs0xrrwF2bKEthx3E+9xzdiSmKtyRGKVhDIC4kE9UlZMIT3dP3Vjy09O9T38HZfnTJGWRuppb8lD7KpzeHSWZCmgPnY=
+  bucket: dev.walkdenton.com
+  local_dir: public
+  acl: public_read
+  skip_cleanup: true
+  on:
+    repo: bbttxu/walkdenton
+    all_branches: true
