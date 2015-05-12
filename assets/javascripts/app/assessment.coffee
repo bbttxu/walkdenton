@@ -1,9 +1,9 @@
 # assessment.coffee
 
-define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (L, postal, defaults, $, Intersection)->
+define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "data/inter_lite"], (L, postal, defaults, $, Intersection, data)->
 	channel = postal.channel()
 
-	intersections = []
+	intersections = data
 	current = []
 
 	options =
@@ -25,7 +25,7 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (
 
 	locateOptions =
 		setView: false
-		maxZoom: 17
+		maxZoom: 18
 		watch: true
 		timeout: 6000
 		maximumAge: 6000
@@ -40,13 +40,23 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (
 			for marker in markers
 				marker.getLatLng() if marker isnt undefined
 
+	options =
+		color: '#00f'
+
+	loc = L.circle( coordinates, 1000, options ).addTo(map)
+
 
 
 	onLocationFound = (e) ->
 
-		radius = e.accuracy / 2
-		radius = 1000
+		# circle.setLatLng e.latlng
 
+
+		radius = e.accuracy / 2
+		# radius = 1000
+
+		loc.setLatLng e.latlng
+		loc.setRadius radius
 		map.panTo e.latlng
 
 
@@ -73,13 +83,43 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (
 		found = _.filter intersections, (intersection)->
 			(intersection.y > sw.lat) and (ne.lat > intersection.y) and (intersection.x > sw.lng) and (ne.lng > intersection.x)
 
+
+		# prioritized = {}
+		# _.each found, (intersection)->
+		# 	prioritized[map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x] = intersection
+
+
+		# console.log prioritized, _.min(_.keys(prioritized))
+
 		sorted = _.sortBy found, (intersection)->
 			map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x
 
-		ten = _.take sorted, 5
+		ten = _.take sorted, 45
+		two = _.take sorted, 2
 
-		markers = _.map ten, (one)->
+		proximates = _.map two, (proximate)->
+			map.getCenter().distanceTo new L.LatLng proximate.y, proximate.x
+
+		if (2 * proximates[0]) > proximates[1]
+			console.log "on the fence"
+
+		if (2 * proximates[0]) <= proximates[1]
+			proximates = [proximates[0]]
+
+			console.log "found"
+
+		foo = proximates.length
+
+
+
+
+		markers = _.map (_.take ten, foo), (one)->
+			# console.log one
 			new Intersection(one).marker()
+
+
+
+
 
 		_.each _.difference(markers, current), (marker)->
 			marker.addTo map
@@ -90,15 +130,17 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection"], (
 		current = markers
 
 
-	getIntersections = $.getJSON "/data/inter_lite.json"
+	# getIntersections = $.getJSON "/data/inter_lite.js"
 
-	handleIntersections = (data, response)->
-		intersections = data
+	# handleIntersections = (data, response)->
+	# 	intersections = data
 
-		channel.publish "intersections", data
+	# 	channel.publish "intersections", data
 
-	$.when(getIntersections).then(handleIntersections)
+	# $.when(getIntersections).then(handleIntersections)
 
+
+	channel.publish "intersections", data
 
 
 
