@@ -1,0 +1,14 @@
+.carousel-inner(role='listbox')
+  each question, index in questions
+    .item(id='#question-'+index, class=((index===0)?'active':''))
+      img(src='https://placeimg.com/320/160/arch/grayscale', alt='...')
+
+      .carousel-caption
+        .control-group
+          label.control-label(for='type')= question.question
+          .controls
+            select.form-control.input-large(name='xpresent')
+              for option, key in question.options
+                option(foo=key)= option
+        //- p How many cross-walks are present? How many are painted?
+

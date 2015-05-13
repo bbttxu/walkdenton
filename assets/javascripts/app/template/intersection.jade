@@ -1,0 +1,20 @@
+//- intersection.jade
+
+!= detail
+
+
+
+
+#carousel-example-generic.carousel.slide(data-ride='carousel')
+  != indicators
+  != items
+
+  a.left.carousel-control(href='#carousel-example-generic', role='button', data-slide='prev')
+    span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+
+    span.sr-only Previous
+
+  a.right.carousel-control(href='#carousel-example-generic', role='button', data-slide='next')
+    span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+
+    span.sr-only Next

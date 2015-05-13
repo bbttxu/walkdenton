@@ -121,35 +121,46 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "d
 
     # if top.length is 1
     questions = [
-      name: 'xsafekid'
-      question: "Safe Place to Walk for Kids?"
+      name: 'nRoads'
+      question: "Number of Roads?"
       options:
-        0: "No"
-        1: "Not Really"
-        2: "Kinda"
-        3: "Mostly"
-        4: "Absoulutely"
+        5: "5"
+        4: "4"
+        3: "3"
+        2: "2"
+        1: "1"
     ,
-      name: 'xsafekid'
-      question: "Safe Place to Walk for Kids?"
+      name: 'nCrosswalks'
+      question: "Number of Crosswalks?"
       options:
-        0: "No"
-        1: "Not Really"
-        2: "Kinda"
-        3: "Mostly"
-        4: "Absoulutely"
+        5: "5"
+        4: "4"
+        3: "3"
+        2: "2"
+        1: "1"
+    ,
+      name: 'nCrosswalks'
+      question: "Number of Crosswalk Signals?"
+      options:
+        5: "5"
+        4: "4"
+        3: "3"
+        2: "2"
+        1: "1"
     ]
 
 
     # indicators = _.map questions, (question, index)->
-    console.log questions
-    indicators = templates['carousel-items'] questions: questions
+    # console.log questions
+    indicators = templates['carousel-indicators'] questions: questions
 
-    console.log indicators
+    items = templates['carousel-items'] questions: questions
 
+    detail = templates['intersection-form'] top[0]
 
-    console.log top[0]
-    $('#intersectionForm').html templates['intersection-form'] top[0]
+    all = templates['intersection'] items: items, indicators: indicators, detail: detail
+
+    $('#intersectionForm').html all
 
 
 

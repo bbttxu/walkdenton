@@ -1,0 +1,4 @@
+//- carousel-indicator.jade
+ol.carousel-indicators
+  each question, index in questions
+    li(data-target='#question-'+index, data-slide-to=index)
