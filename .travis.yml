@@ -9,9 +9,9 @@ cache:
   - node_modules
 deploy:
   provider: s3
-  access_key_id: AKIAISNT2O26XTKJ4YBA
+  access_key_id: AKIAIBSDSCZ5R7N4BK7A
   secret_access_key:
-    secure: JfjXkFhT51DY2+a6WQwLlu2rTgxTDoWd7i+sOHCdgd7EAi9Jo3r6pCzHhnCN8ugmjLdopDeFPRfQs/Ao+nvB8IOmI7iFUHHctFNsJR1rZnViELjJWQCFKYh5565IbvZpvsPhQEt2zIzxf/iZqk92mZPCYZ4FIn0dRqK6JOl7ZVE=
+    secure: Ba/Xtqnjtph0UxOdJAMjdpV4yviE4flrdvQ5hVtJZkZ9QYExZbE11xBonqV7AZV+SKyz90gCZio1i/qv+WnXzC3sCz1ThXObXpHYLCH5Unscyb/+nbLGHZXDDzVxnSTd8PAtYHQC7wvq3bAD8VjFU92qjHwF6RE1ZPhSsTy5TBE=
   bucket: dev.walkdenton.com
   local_dir: public
   acl: public_read
