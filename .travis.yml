@@ -1,23 +1,17 @@
-# .travis.yml
-
 language: node_js
 node_js:
-  - "0.12"
-
+- '0.12'
 before_install: npm install -g grunt-cli mimosa testem
 install: npm install
 before_script: mimosa build
-
 cache:
   directories:
   - node_modules
-
-
 deploy:
   provider: s3
   access_key_id: AKIAISNT2O26XTKJ4YBA
   secret_access_key:
-    secure: UcLkRe+hCFPiVt7NCBoUIGpww+6Suis6OrLwTEc5yBs1ato4fj38WsT+gAPcLlxOZebOmnMviTwBBpeXcs0xrrwF2bKEthx3E+9xzdiSmKtyRGKVhDIC4kE9UlZMIT3dP3Vjy09O9T38HZfnTJGWRuppb8lD7KpzeHSWZCmgPnY=
+    secure: JfjXkFhT51DY2+a6WQwLlu2rTgxTDoWd7i+sOHCdgd7EAi9Jo3r6pCzHhnCN8ugmjLdopDeFPRfQs/Ao+nvB8IOmI7iFUHHctFNsJR1rZnViELjJWQCFKYh5565IbvZpvsPhQEt2zIzxf/iZqk92mZPCYZ4FIn0dRqK6JOl7ZVE=
   bucket: dev.walkdenton.com
   local_dir: public
   acl: public_read
