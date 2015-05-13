@@ -1,123 +1,159 @@
 # assessment.coffee
 
-define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "data/inter_lite"], (L, postal, defaults, $, Intersection, data)->
-	channel = postal.channel()
+define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "data/inter_lite", "templates"], (L, postal, defaults, $, Intersection, data, templates)->
+  channel = postal.channel()
 
-	intersections = data
-	current = []
+  intersections = data
+  current = []
 
-	options =
-		dragging: false
-		touchZoom: false
-		scrollWheelZoom: false
-		doubleClickZoom: false
-		boxZoom: false
-		zoomControl: false
+  options =
+    dragging: false
+    touchZoom: false
+    scrollWheelZoom: false
+    doubleClickZoom: false
+    boxZoom: false
+    zoomControl: false
 
-	coordinates = [ defaults.location.latitude, defaults.location.longitude ]
-	map = L.map('map', options).setView( coordinates, 16 )
+  coordinates = [ defaults.location.latitude, defaults.location.longitude ]
+  map = L.map('map', options).setView( coordinates, 16 )
 
-	L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-		attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
-		maxZoom: 18
-	).addTo map
-
-
-	locateOptions =
-		setView: false
-		maxZoom: 18
-		watch: true
-		timeout: 6000
-		maximumAge: 6000
-		enableHighAccuracy: true
-
-	map.locate locateOptions
-
-	currentMarkers = {}
-
-	currentMarkerBounds = ()->
-		latLngs = for key, markers of currentMarkers
-			for marker in markers
-				marker.getLatLng() if marker isnt undefined
-
-	options =
-		color: '#00f'
-
-	loc = L.circle( coordinates, 1000, options ).addTo(map)
+  L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution: "Map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"http://cloudmade.com\">CloudMade</a>"
+    maxZoom: 18
+  ).addTo map
 
 
+  locateOptions =
+    setView: false
+    maxZoom: 18
+    watch: true
+    timeout: 6000
+    maximumAge: 6000
+    enableHighAccuracy: true
 
-	onLocationFound = (e) ->
-		radius = e.accuracy / 2
-		radius = 10 if radius < 10
+  map.locate locateOptions
 
-		loc.setLatLng e.latlng
-		loc.setRadius radius
-		map.panTo e.latlng
+  # currentMarkers = {}
 
+  # currentMarkerBounds = ()->
+  #   latLngs = for key, markers of currentMarkers
+  #     for marker in markers
+  #       marker.getLatLng() if marker isnt undefined
 
-	map.on "locationfound", onLocationFound
+  options =
+    color: '#00f'
 
-	onLocationError = (e) ->
-		console.log e.message
-
-	map.on "locationerror", onLocationError
-	map.on "move", ()->
-		channel.publish "intersections"
+  loc = L.circle( coordinates, 1000, options ).addTo(map)
 
 
-	findBounds = (markerArray)->
-		L.latLngBounds markerArray.concat smallCircle.getLatLng()
+
+  onLocationFound = (e) ->
+    radius = e.accuracy / 2
+    radius = 10 if radius < 10
+
+    loc.setLatLng e.latlng
+    loc.setRadius radius
+    map.panTo e.latlng
 
 
-	channel.subscribe "intersections", ()->
+  map.on "locationfound", onLocationFound
 
-		bounds = map.getBounds()
-		sw = bounds.getSouthWest()
-		ne = bounds.getNorthEast()
+  onLocationError = (e) ->
+    console.log e.message
 
-		found = _.filter intersections, (intersection)->
-			(intersection.y > sw.lat) and (ne.lat > intersection.y) and (intersection.x > sw.lng) and (ne.lng > intersection.x)
+  map.on "locationerror", onLocationError
+  map.on "move", ()->
+    channel.publish "intersections"
 
-		sorted = _.sortBy found, (intersection)->
-			map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x
 
-		ten = sorted
-		# ten = _.take sorted, 45
-		top = _.take sorted, 2
+  findBounds = (markerArray)->
+    L.latLngBounds markerArray.concat smallCircle.getLatLng()
 
-		proximates = _.map top, (proximate)->
-			map.getCenter().distanceTo new L.LatLng proximate.y, proximate.x
 
-		if (2 * proximates[0]) > proximates[1]
-			console.log "on the fence"
+  channel.subscribe "intersections", ()->
 
-		if (2 * proximates[0]) <= proximates[1]
-			top.pop()
+    bounds = map.getBounds()
+    sw = bounds.getSouthWest()
+    ne = bounds.getNorthEast()
 
-			console.log "found"
+    found = _.filter intersections, (intersection)->
+      (intersection.y > sw.lat) and (ne.lat > intersection.y) and (intersection.x > sw.lng) and (ne.lng > intersection.x)
 
-		foo = proximates.length
+    sorted = _.sortBy found, (intersection)->
+      map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x
 
-		color = top.length is 1 ? 'green' : 'red'
+    ten = sorted
+    # ten = _.take sorted, 45
+    top = _.take sorted, 2
 
-		markers = _.map top, (one)->
-			new Intersection(one).marker(color)
+    proximates = _.map top, (proximate)->
+      map.getCenter().distanceTo new L.LatLng proximate.y, proximate.x
 
-		others = _.map _.difference(ten, top), (one)->
-			new Intersection(one).marker('blue')
+    if (2 * proximates[0]) > proximates[1]
+      console.log "on the fence"
 
-		markers = markers.concat others
+    if (2 * proximates[0]) <= proximates[1]
+      top.pop()
 
-		_.each _.difference(markers, current), (marker)->
-			marker.addTo map
+      console.log "found"
 
-		_.each _.difference(current, markers), (marker)->
-			map.removeLayer marker
+    foo = proximates.length
 
-		current = markers
+    console.log top.length
 
-	channel.publish "intersections", data
+    color = if (top.length == 1) then 'green' else 'blue'
+
+    markers = _.map top, (one)->
+      new Intersection(one).marker(color)
+
+    # others = _.map _.difference(ten, top), (one)->
+    #   new Intersection(one).marker('blue')
+
+    # markers = markers.concat others
+
+    _.each _.difference(markers, current), (marker)->
+      marker.addTo map
+
+    _.each _.difference(current, markers), (marker)->
+      map.removeLayer marker
+
+    current = markers
+
+    # if top.length is 1
+    questions = [
+      name: 'xsafekid'
+      question: "Safe Place to Walk for Kids?"
+      options:
+        0: "No"
+        1: "Not Really"
+        2: "Kinda"
+        3: "Mostly"
+        4: "Absoulutely"
+    ,
+      name: 'xsafekid'
+      question: "Safe Place to Walk for Kids?"
+      options:
+        0: "No"
+        1: "Not Really"
+        2: "Kinda"
+        3: "Mostly"
+        4: "Absoulutely"
+    ]
+
+
+    # indicators = _.map questions, (question, index)->
+    console.log questions
+    indicators = templates['carousel-items'] questions: questions
+
+    console.log indicators
+
+
+    console.log top[0]
+    $('#intersectionForm').html templates['intersection-form'] top[0]
+
+
+
+  channel.publish "intersections", data
 
 
 
