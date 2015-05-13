@@ -48,12 +48,8 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "d
 
 
 	onLocationFound = (e) ->
-
-		# circle.setLatLng e.latlng
-
-
 		radius = e.accuracy / 2
-		# radius = 1000
+		radius = 10 if radius < 10
 
 		loc.setLatLng e.latlng
 		loc.setRadius radius
@@ -83,43 +79,35 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "d
 		found = _.filter intersections, (intersection)->
 			(intersection.y > sw.lat) and (ne.lat > intersection.y) and (intersection.x > sw.lng) and (ne.lng > intersection.x)
 
-
-		# prioritized = {}
-		# _.each found, (intersection)->
-		# 	prioritized[map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x] = intersection
-
-
-		# console.log prioritized, _.min(_.keys(prioritized))
-
 		sorted = _.sortBy found, (intersection)->
 			map.getCenter().distanceTo new L.LatLng intersection.y, intersection.x
 
-		ten = _.take sorted, 45
-		two = _.take sorted, 2
+		ten = sorted
+		# ten = _.take sorted, 45
+		top = _.take sorted, 2
 
-		proximates = _.map two, (proximate)->
+		proximates = _.map top, (proximate)->
 			map.getCenter().distanceTo new L.LatLng proximate.y, proximate.x
 
 		if (2 * proximates[0]) > proximates[1]
 			console.log "on the fence"
 
 		if (2 * proximates[0]) <= proximates[1]
-			proximates = [proximates[0]]
+			top.pop()
 
 			console.log "found"
 
 		foo = proximates.length
 
+		color = top.length is 1 ? 'green' : 'red'
 
+		markers = _.map top, (one)->
+			new Intersection(one).marker(color)
 
+		others = _.map _.difference(ten, top), (one)->
+			new Intersection(one).marker('blue')
 
-		markers = _.map (_.take ten, foo), (one)->
-			# console.log one
-			new Intersection(one).marker()
-
-
-
-
+		markers = markers.concat others
 
 		_.each _.difference(markers, current), (marker)->
 			marker.addTo map
@@ -128,17 +116,6 @@ define ["leaflet", "postal", "app/defaults", "jquery", "models/intersection", "d
 			map.removeLayer marker
 
 		current = markers
-
-
-	# getIntersections = $.getJSON "/data/inter_lite.js"
-
-	# handleIntersections = (data, response)->
-	# 	intersections = data
-
-	# 	channel.publish "intersections", data
-
-	# $.when(getIntersections).then(handleIntersections)
-
 
 	channel.publish "intersections", data
 
