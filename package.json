@@ -22,7 +22,11 @@
     "mimosa-jshint": "^2.1.1",
     "mimosa-less": "^2.1.0",
     "mimosa-minify-css": "^1.4.0",
-    "mimosa-minify-js": "^2.0.0"
+    "mimosa-minify-js": "^2.0.0",
+    "mimosa-require": "^3.1.5",
+    "mimosa-server": "^1.7.0",
+    "mimosa-server-template-compile": "^0.7.0",
+    "mimosa-testem-require": "^1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
