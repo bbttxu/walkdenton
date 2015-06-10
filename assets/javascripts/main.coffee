@@ -52,12 +52,11 @@ requirejs.config
       deps: [ 'leaflet' ]
 
 
-
-require [ 'bootstrap' ], ->
-
 require [ 'app/map' ], ->
 
 require [ 'app/intersections' ], ->
+
+require [ 'app/global' ], ->
 
 # require [ 'app/assessment' ], ->
 
