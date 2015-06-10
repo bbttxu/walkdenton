@@ -1,6 +1,6 @@
 # map.coffee
 
-define ['leaflet', 'postal', 'app/defaults', 'models/intersection', 'data/inter_lite'], (L, Postal, defaults, Intersection, data)->
+define ['underscore', 'leaflet', 'postal', 'app/defaults', 'models/intersection', 'data/inter_lite'], (_, L, Postal, defaults, Intersection, data)->
   channel = Postal.channel()
 
   intersections = data
@@ -101,7 +101,7 @@ define ['leaflet', 'postal', 'app/defaults', 'models/intersection', 'data/inter_
 
     current = markers
 
-    channel.publish 'intersections:closest', top
+    channel.publish 'intersections:closest', _.sortBy( top, 'y' ).reverse()
 
 
   channel.publish 'intersections', data

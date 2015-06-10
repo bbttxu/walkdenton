@@ -59,5 +59,5 @@ require [ 'app/map' ], ->
 
 require [ 'app/intersections' ], ->
 
-require [ 'app/assessment' ], ->
+# require [ 'app/assessment' ], ->
 
