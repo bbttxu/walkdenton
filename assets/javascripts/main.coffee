@@ -56,7 +56,7 @@ require [ 'app/map' ], ->
 
 require [ 'app/intersections' ], ->
 
-require [ 'app/global' ], ->
+# require [ 'app/global' ], ->
 
 # require [ 'app/assessment' ], ->
 
