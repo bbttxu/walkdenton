@@ -17,11 +17,21 @@ exports.config = {
   will attempt to install it.
   ###
   modules: [
-    'server', 'bower', 'jade',
-    'coffeescript', 'stylus', 'require', 'minify-js', 'minify-css', 'live-reload', 'server-template-compile', 'copy',
+    'server',
+    'bower',
+    'jade',
+    'coffeescript',
+    'stylus',
+    'require',
+    'minify-js',
+    'minify-css',
+    'live-reload',
+    'server-template-compile',
+    'copy',
     'testem-require',
-    'mimosa-cjsx',
-    'less' ] #
+    # 'mimosa-cjsx',
+    'less'
+  ] #
 
   logger:
     info:
