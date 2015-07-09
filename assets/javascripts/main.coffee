@@ -20,26 +20,19 @@ requirejs.config
     bootstrap: 'vendor/bootstrap/bootstrap'
 
   shim:
-    # 'foundation':
-    #   deps: [ 'jquery' ]
     'bootstrap':
       deps: [ 'jquery' ]
+
     'sammy':
       deps: [ 'jquery' ]
       exports: 'Sammy'
-    # 'sammy-google-analytics':
-    #   deps: [ 'sammy' ]
-    # 'sammy.json':
-    #   deps: [ 'sammy' ]
-    # 'sammy.storage':
-    #   deps: [ 'sammy' ]
 
-    # 'sammy.oauth2':
-    #   deps: [ 'sammy' ]
     underscore:
       exports: '_'
+
     leaflet:
       exports: 'L'
+
     'leaflet.awesome-markers':
       deps: [ 'leaflet' ]
 
