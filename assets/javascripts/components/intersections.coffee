@@ -5,7 +5,6 @@ define ['react', 'underscore', 'components/intersection'], (React, _, Intersecti
 
   class Intersections extends React.Component
     render: ()->
-      ul {},
-        _.map this.props.streets, (street)->
-          Intersection { street: street, key: street.iid }
+      ul {}, _.map this.props.streets, (street)->
+        Intersection { street: street, key: street.iid }
 
