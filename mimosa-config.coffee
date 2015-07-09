@@ -208,7 +208,7 @@ exports.config = {
   ###
   copy:
     # extensions: ["js","css","png","jpg","jpeg","gif","html","eot","svg","ttf","woff","otf","yaml","kml","ico","htc","htm","json","txt","xml","xsd","map","md","mp4"]
-    exclude: ["scss"]       # List of regexes or strings to match files that should not be copied
+    exclude: ["scss", "less"]       # List of regexes or strings to match files that should not be copied
                         # but that you might still want processed. String paths can be absolute
                         # or relative to the watch.sourceDir. Regexes are applied to the entire
                         # path.
@@ -375,7 +375,7 @@ exports.config = {
       # exclude:[]                # An array of string paths or regexes. Files to exclude from
                                   # copying. Paths should be relative to the bowerdir.path or
                                   # absolute.
-      unknownMainFullCopy: true # When set to true, any bower package that does not have main
+      unknownMainFullCopy: false  # When set to true, any bower package that does not have main
                                   # files configured in its bower.json will have its entire
                                   # folder contents copied in.
       # mainOverrides: {}         # Occasionally bower packages do not clearly indicate what file
